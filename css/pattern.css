@@ -1,4 +1,15 @@
+body{
+    /* padding-top: 60px; */
+}
+.row div{
+    /* border: solid black 1px; */
+    /* background: royalblue; */
+}
 #navbar-menu{
     border-bottom: none;
     box-shadow: 4px 4px 5px rgba(10,10,10,0.3);
+    color: #bbb;
+}
+#main-container{
+    padding-top: 80px;
 }
