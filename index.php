@@ -36,14 +36,14 @@
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form> -->
-      <li><form class="navbar-form" id="navbar-menu">
+      <li><form class="navbar-form" id="navbar-menu" method="post">
   <div class="form-group">
-    <label for="exampleInputName2">Usuário: </label>
-    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+    <label for="inputUsername-l">Usuário: </label>
+    <input type="text" class="form-control" id="inputUsername-l" placeholder="JaneDoe23">
   </div>
   <div class="form-group">
-    <label for="exampleInputName2">E-mail: </label>
-    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+    <label for="inputPasswd-l">Senha: </label>
+    <input type="password" class="form-control" id="inputPasswd-l" name="passwd-l" placeholder="*****">
   </div>
   <button type="submit" class="btn btn-default">Entrar</button>
 </form></li>
@@ -74,23 +74,30 @@
   <div class="row">
   Cadastro
 
-  <form>
+  <form method="post">
   <div class="form-group">
-    <label for="inputUsername">Nome de Usuário</label>
-    <input type="text" class="form-control" id="inputUsername" name="username" placeholder="Ex: Bruna620">
+    <label for="inputUsername-s">Nome de Usuário</label>
+    <input type="text" required class="form-control" id="inputUsername-s" name="username" placeholder="Ex: Bruna620">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Senha</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="inputPasswd-s">Senha</label>
+    <input type="password" required class="form-control" id="inputPasswd-s" placeholder="******">
   </div>
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="exampleInputFile">File input</label>
     <input type="file" id="exampleInputFile">
     <p class="help-block">Example block-level help text here.</p>
-  </div>
-  <div class="checkbox">
+  </div> -->
+  <label>Gênero:</label>
+  <div class="radio">
     <label>
-      <input type="checkbox"> Check me out
+      <input type="radio" name="gender" required value="M"> Masculino
+    </label>
+    <label>
+      <input type="radio" name="gender" required value="F"> Feminino
+    </label>
+    <label>
+      <input type="radio" name="gender" checked  required value="O"> Outro
     </label>
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
