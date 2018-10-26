@@ -37,7 +37,7 @@ if(!isset($_SESSION["id_user"])){
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <li>
-    <form class="navbar-form navbar-right" method="post">
+    <form class="navbar-form navbar-right" method="post" action="search.php">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Pesquisar">
       </div>

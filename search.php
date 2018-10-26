@@ -35,18 +35,13 @@ if(!isset($_SESSION["id_user"])){
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Pesquisar" value="FEED" disabled>
-        </div>
-      </form>
       <ul class="nav navbar-nav navbar-right">
       <li>
-    <form class="navbar-form navbar-right" method="post" action="search.php">
+    <form class="navbar-form navbar-right">
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Pesquisar">
       </div>
-      <button type="submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></button>
+      <a class="btn btn-default"><label class="glyphicon glyphicon-search"></label></a>
     </form>
       </li>
         <li><a href="home.php">Início</a></li>
@@ -55,7 +50,7 @@ if(!isset($_SESSION["id_user"])){
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Ver Comunidades</a></li>
-            <li><a href="create_community.php">Nova Comunidade</a></li>
+            <li><a href="#">Nova Comunidade</a></li>
             <li><a href="#">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
             <li role="separator" class="divider"></li>
@@ -70,35 +65,6 @@ if(!isset($_SESSION["id_user"])){
 </nav>
 
 <div class="container" id="main-container">
-
-<div class="row">
-<div class="col-xs-12 col-lg-7">
-  <!-- <div class="row sidenav" style="background:rexd">
-    Post
-  </div> -->
-  <div class="row post" style="background:rexd">
-    Post
-  </div>
-  <div class="row post" style="background:lighxtblue">
-    Post
-  </div>
-  <div class="row post" style="background:redx">
-    Post
-  </div>
-</div>
-<div class="col-xs-12 col-lg-4 col-lg-offset-1">
-  <div class="row sidenav" style="background:lixghtblue">
-  Profile Info
-  </div>
-  <div class="row sidenav" style="background:lixghtblue">
-  Trending Communities
-  </div>
-  <div class="row sidenav" style="background:rxed">
-  Trending Posts
-  </div>
-</div>
-</div>
-  
 </div>
 
 
