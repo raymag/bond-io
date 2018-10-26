@@ -1,6 +1,9 @@
 <?php
 session_start();
 include "inc/functions/connection.php";
+if(!isset($_SESSION["id_user"])){
+  header("location:index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
@@ -32,11 +35,6 @@ include "inc/functions/connection.php";
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Pesquisar" value="FEED" disabled>
-        </div>
-      </form>
       <ul class="nav navbar-nav navbar-right">
       <li>
     <form class="navbar-form navbar-right" method="post">
@@ -67,35 +65,52 @@ include "inc/functions/connection.php";
 </nav>
 
 <div class="container" id="main-container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2" id="create-community-form">
+<?php
+$conn = connect();
+if(isset($_POST["title"])){
+  $title = $_POST["title"];
+  $desc = $_POST["description"];
 
-<div class="row">
-<div class="col-xs-12 col-lg-7">
-  <!-- <div class="row sidenav" style="background:rexd">
-    Post
-  </div> -->
-  <div class="row post" style="background:rexd">
-    Post
+  $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
+  if(mysqli_query($conn, $sql)){
+    echo "<div class='alert alert-success'>
+    <strong>Sucesso!</strong> Comunidade criada com êxito.
+    </div>";
+  }else{
+    echo "<div class='alert alert-danger'>
+    <strong>Erro!</strong> A comunidade não foi criada.
+    </div>";
+  }
+}
+mysqli_close($conn);
+?>
+    <h3>Criar nova comunidade</h3>
+    <form method="post">
+      <div class="form-group">
+        <label for="inputTitleCommunity">Título</label>
+        <input type="text" class="form-control" name="title" id="inputTitleCommunity" placeholder="Ex: Torcedores do Cruzeiro">
+      </div>
+      <div class="form-group">
+        <label for="inputDescCommunity">Descrição</label>
+        <input type="text" class="form-control" name="description" id="inputDescCommunity" placeholder="Ex: Comunidade para torcedores do cruzeiro...">
+      </div>
+      <div class="form-group">
+        <label for="inputIconCommunity">Ícone</label>
+        <input type="file" id="inputIconCommunity">
+        <!-- <p class="help-block"></p> -->
+      </div>
+      <!-- <div class="checkbox">
+        <label>
+          <input type="checkbox"> Check me out
+        </label>
+      </div> -->
+      <button type="submit" class="btn btn-default">Criar</button>
+</form>
+
+    </div>
   </div>
-  <div class="row post" style="background:lighxtblue">
-    Post
-  </div>
-  <div class="row post" style="background:redx">
-    Post
-  </div>
-</div>
-<div class="col-xs-12 col-lg-4 col-lg-offset-1">
-  <div class="row sidenav" style="background:lixghtblue">
-  Profile Info
-  </div>
-  <div class="row sidenav" style="background:lixghtblue">
-  Trending Communities
-  </div>
-  <div class="row sidenav" style="background:rxed">
-  Trending Posts
-  </div>
-</div>
-</div>
-  
 </div>
 
 

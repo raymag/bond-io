@@ -26,3 +26,7 @@ body{
 #main-container{
     padding-top: 80px;
 }
+#create-community-form{
+    border-left: solid #ccc 1px;
+    border-right: solid #ccc 1px;
+}

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "inc/functions/connection.php";
-if(isset($_POST["id_user"])){
+if(isset($_SESSION["id_user"])){
   header("location:home.php");
 }
 ?>

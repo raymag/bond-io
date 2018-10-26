@@ -55,7 +55,7 @@ if(!isset($_SESSION["id_user"])){
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Ver Comunidades</a></li>
-            <li><a href="#">Nova Comunidade</a></li>
+            <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="#">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
             <li role="separator" class="divider"></li>
