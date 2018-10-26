@@ -1,6 +1,9 @@
 <?php
 session_start();
 include "inc/functions/connection.php";
+if(isset($_POST["id_user"])){
+  header("location:home.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
