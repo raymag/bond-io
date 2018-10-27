@@ -18,6 +18,13 @@ body{
     border: solid #ccc 1px;
     border-radius:2px;
 }
+.panel-gray{
+    background: rgba(100, 100, 100, 0.1);
+}
+.border-div{
+    padding: 5px;
+    border: solid 1px #ccc;
+}
 #navbar-menu{
     border-bottom: none;
     box-shadow: 4px 4px 5px rgba(10,10,10,0.3);

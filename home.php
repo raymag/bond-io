@@ -42,11 +42,11 @@ if(!isset($_SESSION["id_user"])){
       </form>
       <ul class="nav navbar-nav navbar-right">
       <li>
-    <form class="navbar-form navbar-right" method="post" action="search.php">
+    <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Pesquisar">
+        <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
       </div>
-      <button type="submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></button>
+      <a id="nav-search-submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></a>
     </form>
       </li>
         <li><a href="home.php">Início</a></li>
@@ -103,7 +103,7 @@ if(!isset($_SESSION["id_user"])){
 
 
 
-
+    <script src="js/pattern.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

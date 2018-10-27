@@ -37,11 +37,11 @@ if(!isset($_SESSION["id_user"])){
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <li>
-    <form class="navbar-form navbar-right" method="post" action="search.php">
+    <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Pesquisar">
+        <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
       </div>
-      <button type="submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></button>
+      <a id="nav-search-submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></a>
     </form>
       </li>
         <li><a href="home.php">Início</a></li>
@@ -50,7 +50,7 @@ if(!isset($_SESSION["id_user"])){
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Ver Comunidades</a></li>
-            <li><a href="#">Nova Comunidade</a></li>
+            <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="#">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
             <li role="separator" class="divider"></li>
@@ -73,15 +73,25 @@ if(isset($_POST["title"])){
   $title = $_POST["title"];
   $desc = $_POST["description"];
 
-  $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
-  if(mysqli_query($conn, $sql)){
-    echo "<div class='alert alert-success'>
-    <strong>Sucesso!</strong> Comunidade criada com êxito.
-    </div>";
-  }else{
-    echo "<div class='alert alert-danger'>
-    <strong>Erro!</strong> A comunidade não foi criada.
-    </div>";
+  $sql = "SELECT community_name FROM communities WHERE community_name LIKE '$title'";
+  if($query = mysqli_query($conn, $sql)){
+    $data = mysqli_fetch_assoc($query);
+    if(isset($data["community_name"])){
+      echo "<div class='alert alert-warning'>
+        <strong>Falha!</strong> Este título já está em uso.
+        </div>";
+    }else{
+      $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
+      if(mysqli_query($conn, $sql)){
+        echo "<div class='alert alert-success'>
+        <strong>Sucesso!</strong> Comunidade criada com êxito.
+        </div>";
+      }else{
+        echo "<div class='alert alert-danger'>
+        <strong>Erro!</strong> A comunidade não foi criada.
+        </div>";
+      }
+    }
   }
 }
 mysqli_close($conn);
@@ -115,7 +125,7 @@ mysqli_close($conn);
 
 
 
-
+    <script src="js/pattern.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->  
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
