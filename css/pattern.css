@@ -21,9 +21,16 @@ body{
 .panel-gray{
     background: rgba(100, 100, 100, 0.1);
 }
+.gray-text{
+    color: #ccc;
+}
 .border-div{
     padding: 5px;
     border: solid 1px #ccc;
+}
+.border-bottom{
+    padding-bottom: 6px;
+    border-bottom: solid 1px #bbb;
 }
 #navbar-menu{
     border-bottom: none;
