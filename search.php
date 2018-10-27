@@ -83,12 +83,23 @@ if(!isset($_SESSION["id_user"])){
         }else{
           echo "<div class='panel panel-default panel-gray'>
             <div class='panel-body'>";
-            echo "<strong>".$data["community_name"]."</strong> - <label title='Membros' class='label label-default'>"
+          echo "<strong>".$data["community_name"]."</strong> - <label title='Membros' class='label label-default'>"
             .$data["members"]
             ." <label class='glyphicon glyphicon-user'></label></label> <br><br> ";
-            echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
-            echo '<a class="btn btn-success" href="join_community.php?q='.$data["id_community"].'" role="button">Entrar</a>';
-            echo "</div></div>";
+          echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
+          $id_community = $data["id_community"];
+          $id_user = $_SESSION["id_user"];
+          $sql = "SELECT * FROM is_part_of WHERE user = '$id_user' AND community = '$id_community'";
+          if($query2 = mysqli_query($conn, $sql)){
+            $ispartof = mysqli_fetch_assoc($query2);
+            if(isset($ispartof["user"])){
+              echo '<a class="btn btn-danger" href="exit_community.php?c='.$data["id_community"].'" role="button">Sair</a>';
+              echo "</div></div>";
+            }else{
+              echo '<a class="btn btn-success" href="join_community.php?c='.$data["id_community"].'" role="button">Entrar</a>';
+              echo "</div></div>";
+            }
+          }
           while($data = mysqli_fetch_assoc($query)){
             echo "<div class='panel panel-default panel-gray'>
             <div class='panel-body'>";
@@ -96,8 +107,19 @@ if(!isset($_SESSION["id_user"])){
             .$data["members"]
             ." <label class='glyphicon glyphicon-user'></label></label> <br><br> ";
             echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
-            echo '<a class="btn btn-success" href="join_community.php?q='.$data["id_community"].'" role="button">Entrar</a>';
-            echo "</div></div>";
+            $id_community = $data["id_community"];
+            $id_user = $_SESSION["id_user"];
+            $sql = "SELECT * FROM is_part_of WHERE user = '$id_user' AND community = '$id_community'";
+            if($query2 = mysqli_query($conn, $sql)){
+              $ispartof = mysqli_fetch_assoc($query2);
+              if(isset($ispartof["user"])){
+                echo '<a class="btn btn-danger" href="exit_community.php?c='.$data["id_community"].'" role="button">Sair</a>';
+                echo "</div></div>";
+              }else{
+                echo '<a class="btn btn-success" href="join_community.php?c='.$data["id_community"].'" role="button">Entrar</a>';
+                echo "</div></div>";
+              }
+            }
           }
         }
       }
