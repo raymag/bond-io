@@ -120,22 +120,58 @@ if(!isset($_GET["c"])){
 </div>
 <div class="container">
 <div class="row">
-    <div class="col-lg-10 col-lg-offset-1" style="background:lightblue">
+    <div class="col-lg-10 col-lg-offset-1" style="background:lightbluex">
     <br>
-        <form>
+        <form method="post" class="border-bottom">
           <div class="form-group">
-            <label for="exampleInputEmail1">Corpo do Post</label>
-            <textarea class="form-control" id="no-resizable-textarea" maxLength="1200" rows="8" placeholder=""></textarea>
+            <textarea class="form-control" id="no-resizable-textarea" maxLength="1200" name="post_text" rows="3" placeholder="No que está pensando?"></textarea>
           </div>
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button type="submit" class="btn btn-success btn-block">Postar</button>
         </form>
+        <?php
+        if(isset($_POST["post_text"][0])){
+          $text= $_POST["post_text"];
+          $text = str_replace('"', '\"', $text);
+          $text = str_replace("'", "\'", $text);
+          $text = strip_tags($text);
+          
+          $conn = connect();
+          $sql = "INSERT INTO posts (post_text, user, community) VALUES ('$text', '$id_user', '$id_community')";
+          if(mysqli_query($conn, $sql)){
+            echo "<div class='alert alert-success'>
+            <strong>Sucesso!</strong> A postagem foi realizada com sucesso.
+            </div>";
+          }
+          mysqli_close($conn);
+        }
+        ?>
         <br>
     </div>
 </div>
 <hr>
-<div class="row">
-    <div class="col-lg-8" style="background:red">
-        POSTS
+<div class="row panel-gray">
+    <div class="col-lg-8" style="background:rexd">
+        <?php
+         $conn = connect();
+         $sql = "SELECT * FROM posts JOIN users ON posts.user = users.id_user  WHERE community = '$id_community' ORDER BY posts.likes, posts.r_date DESC";
+         if($query = mysqli_query($conn, $sql)){
+           while($post = mysqli_fetch_assoc($query)){
+             $text = $post["post_text"];
+             $likes = $post["likes"];
+             $id_post = $post["id_post"];
+             echo "<div class='panel panel-primary'>
+             <div class='panel-heading'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]."</span></div>
+             <div class='panel-body'>
+              $text
+             </div>
+             <div class='panel-footer'> 
+             <a href='like_post.php?p=$id_post&m=like' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'></span></a>
+             </div>
+           </div>";
+           }
+         }
+         mysqli_close($conn);
+        ?>
     </div>
     <div class="col-lg-3 col-lg-offset-1" style="background:orange">
         TRENDING
