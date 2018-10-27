@@ -118,9 +118,28 @@ if(!isset($_GET["c"])){
     </div>
 </div>
 </div>
-
-<div class="container" id="main-container">
+<div class="container">
 <div class="row">
+    <div class="col-lg-10 col-lg-offset-1" style="background:lightblue">
+    <br>
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Corpo do Post</label>
+            <textarea class="form-control" id="no-resizable-textarea" maxLength="1200" rows="8" placeholder=""></textarea>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <br>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-lg-8" style="background:red">
+        POSTS
+    </div>
+    <div class="col-lg-3 col-lg-offset-1" style="background:orange">
+        TRENDING
+    </div>
 </div>
 </div>
 

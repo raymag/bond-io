@@ -44,3 +44,6 @@ body{
     background:rgba(255, 250, 246, 0.7);
     height:180px
 }
+#no-resizable-textarea{
+    resize: none;
+}
