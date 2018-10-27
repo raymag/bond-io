@@ -21,8 +21,18 @@ body{
 .panel-gray{
     background: rgba(100, 100, 100, 0.1);
 }
+.dark-gray-text{
+    color:#999;
+}
 .gray-text{
     color: #ccc;
+}
+.gray-text-link{
+    color: #eee;
+}
+.gray-text-link:hover{
+    text-decoration: none;
+    color: #f93;
 }
 .border-div{
     padding: 5px;
