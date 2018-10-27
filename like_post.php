@@ -4,34 +4,41 @@ include "inc/functions/connection.php";
 if(!isset($_SESSION["id_user"])){
   header("location:index.php");
 }
-if(!isset($_GET["c"])){
+$id_user = $_SESSION["id_user"];
+if(!isset($_GET["p"]) || !isset($_GET["m"]) || !isset($_GET["l"])){
     header("location:home.php");
 }else{
-    $id_user = $_SESSION["id_user"];
-    $id_community = $_GET["c"];
+    if(isset($_GET["u"])){
+        $id_user = $_GET["u"];
+    }
     $conn = connect();
-    $sql = "SELECT * FROM is_part_of WHERE community = '$id_community' AND user = '$id_user'";
+    $id_post = $_GET["p"];
+    $mode = $_GET["m"];
+    $local = $_GET["l"];
+    $sql = "SELECT * FROM posts WHERE id_post = $id_post";
     if($query = mysqli_query($conn, $sql)){
         $data = mysqli_fetch_assoc($query);
-        if(!isset($data["community"])){
-            $sql = "SELECT * FROM communities WHERE id_community = '$id_community'";
-            if($query = mysqli_query($conn, $sql)){
-                $data = mysqli_fetch_assoc($query);
-                if(isset($data["id_community"])){
-                    $sql = "INSERT INTO is_part_of (user, community) VALUES ('$id_user', '$id_community')";
-                    if(mysqli_query($conn, $sql)){
-                        $sql = "UPDATE communities SET members = members + 1 WHERE id_community = '$id_community'";
-                        mysqli_query($conn, $sql);
-                        header("location:see_community.php?c=$id_community");
-                    }else{
-                        header("location:home.php");
-                    }
-                }else{
-                    header("location:home.php");
-                }
+        if(isset($data["user"])){
+            $id_user2 = $data["user"];
+            switch($mode){
+                case "like":
+                    $sql = "INSERT INTO likes (user, post) VALUES ($id_user, $id_post)";
+                    mysqli_query($conn, $sql);
+                    $sql = "UPDATE posts SET likes = likes + 1 WHERE id_post = $id_post";
+                    mysqli_query($conn, $sql);
+                    $sql = "UPDATE users SET stars = stars + 1 WHERE id_user = $id_user2";
+                    mysqli_query($conn, $sql);
+                    break;
+                default:
+                    $sql = "DELETE FROM likes WHERE user = $id_user AND post = $id_post";
+                    mysqli_query($conn, $sql);
+                    $sql = "UPDATE posts SET likes = likes - 1 WHERE id_post = $id_post";
+                    mysqli_query($conn, $sql);
+                    $sql = "UPDATE users SET stars = stars - 1 WHERE id_user = $id_user2";
+                    mysqli_query($conn, $sql);
+                    break;
             }
-        }else{
-            header("location:see_community.php?c=2");
+            header("location:".$local);
         }
     }
     mysqli_close($conn);
