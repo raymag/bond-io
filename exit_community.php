@@ -24,7 +24,7 @@ if(!isset($_GET["c"])){
                 $data = mysqli_fetch_assoc($query);
                 if(isset($data["community_name"])){
                     mysqli_close($conn);
-                    header("location:search.php?q=".urlencode($data["community_name"]));
+                    header("location:see_community.php?c=".$id_community);
                 }else{
                     mysqli_close($conn);
                     header("location:search.php");
@@ -35,7 +35,7 @@ if(!isset($_GET["c"])){
             }
         }else{
             mysqli_close($conn);
-            header("location:search.php");
+            header("location:see_community.php?c=".$id_community);
         }
     }else{
         mysqli_close($conn);
