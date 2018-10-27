@@ -49,9 +49,9 @@ if(!isset($_SESSION["id_user"])){
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Ver Comunidades</a></li>
+            <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
-            <li><a href="#">Meu Perfil</a></li>
+            <li><a href="profile.php">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Configurações</a></li>
@@ -153,7 +153,7 @@ if(!isset($_SESSION["id_user"])){
             echo " <label title='Stars' class='label label-default'>";
             echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
             echo "<br>@".$data["username"]."<br><br> ";
-            echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
+            echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
             echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
             echo "</div></div>";
           while($data = mysqli_fetch_assoc($query)){
@@ -167,7 +167,7 @@ if(!isset($_SESSION["id_user"])){
             echo " <label title='Stars' class='label label-default'>";
             echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
             echo "<br>@".$data["username"]."<br><br> ";
-            echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
+            echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
             echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
             echo "</div></div>";
           }
