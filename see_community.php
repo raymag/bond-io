@@ -70,7 +70,7 @@ if(!isset($_GET["c"])){
           <ul class="dropdown-menu">
             <li><a href="#">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
-            <li><a href="#">Meu Perfil</a></li>
+            <li><a href="profile.php">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">Configurações</a></li>
@@ -120,15 +120,21 @@ if(!isset($_GET["c"])){
 </div>
 <div class="container">
 <div class="row">
-    <div class="col-lg-10 col-lg-offset-1" style="background:lightbluex">
-    <br>
-        <form method="post" class="border-bottom">
-          <div class="form-group">
-            <textarea class="form-control" id="no-resizable-textarea" maxLength="1200" name="post_text" rows="3" placeholder="No que está pensando?"></textarea>
-          </div>
-          <button type="submit" class="btn btn-success btn-block">Postar</button>
-        </form>
-        <?php
+  <div class="col-lg-10 col-lg-offset-1">
+    <?php
+    if(isset($ispartof["user"])){
+      echo '
+      <br>
+          <form method="post" class="border-bottom">
+            <div class="form-group">
+              <textarea class="form-control" id="no-resizable-textarea" maxLength="1200" name="post_text" rows="3" placeholder="No que está pensando?"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success btn-block">Postar</button>
+          </form>
+          <br>
+          ';
+        }?>
+    <?php
         if(isset($_POST["post_text"][0])){
           $text= $_POST["post_text"];
           $text = str_replace('"', '\"', $text);
@@ -145,37 +151,51 @@ if(!isset($_GET["c"])){
           mysqli_close($conn);
         }
         ?>
-        <br>
-    </div>
+</div>
 </div>
 <hr>
 <div class="row panel-gray">
-    <div class="col-lg-8" style="background:rexd">
+    <div class="col-lg-10 col-lg-offset-1">
         <?php
          $conn = connect();
-         $sql = "SELECT * FROM posts JOIN users ON posts.user = users.id_user  WHERE community = '$id_community' ORDER BY posts.likes, posts.r_date DESC";
+         $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts JOIN users ON posts.user = users.id_user  WHERE community = '$id_community' ORDER BY posts.r_date DESC,  posts.likes DESC";
          if($query = mysqli_query($conn, $sql)){
            while($post = mysqli_fetch_assoc($query)){
              $text = $post["post_text"];
              $likes = $post["likes"];
              $id_post = $post["id_post"];
              echo "<div class='panel panel-primary'>
-             <div class='panel-heading'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]."</span></div>
+             <div class='panel-heading'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]." - ";
+             echo $post["data_f"]."</span></div>
              <div class='panel-body'>
               $text
              </div>
-             <div class='panel-footer'> 
-             <a href='like_post.php?p=$id_post&m=like' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'></span></a>
-             </div>
+             <div class='panel-footer'> ";
+             $sql = "SELECT * FROM likes WHERE post = $id_post AND user = $id_user";
+             if(isset(mysqli_fetch_assoc(mysqli_query($conn, $sql))["post"])){
+              echo "<a href='like_post.php?p=$id_post&m=unlike&l=see_community.php?c=$id_community'
+              title='Gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star'>
+              </span></a>";
+             }else{
+               echo "<a href='like_post.php?p=$id_post&m=like&l=see_community.php?c=$id_community'
+                title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
+                </span></a>";
+             }
+             if($post["id_user"] == $id_user){
+              echo " <a href='del_post.php?p=$id_post&l=see_community.php?c=$id_community'
+              title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
+              </span></a>";
+             }
+             echo "</div>
            </div>";
            }
          }
          mysqli_close($conn);
         ?>
     </div>
-    <div class="col-lg-3 col-lg-offset-1" style="background:orange">
+    <!-- <div class="col-lg-3 col-lg-offset-1" style="background:orange"> 
         TRENDING
-    </div>
+    </div> -->
 </div>
 </div>
 
