@@ -86,7 +86,7 @@ if(!isset($_SESSION["id_user"])){
           echo "<strong>".$data["community_name"]."</strong> - <label title='Membros' class='label label-default'>"
             .$data["members"]
             ." <label class='glyphicon glyphicon-user'></label></label> <br><br> ";
-          echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
+          echo '<a class="btn btn-primary" href="see_community.php?c='.$data["id_community"].'" role="button">Visitar</a> ';
           $id_community = $data["id_community"];
           $id_user = $_SESSION["id_user"];
           $sql = "SELECT * FROM is_part_of WHERE user = '$id_user' AND community = '$id_community'";
@@ -106,7 +106,7 @@ if(!isset($_SESSION["id_user"])){
             echo "<strong>".$data["community_name"]."</strong> - <label title='Membros' class='label label-default'>"
             .$data["members"]
             ." <label class='glyphicon glyphicon-user'></label></label> <br><br> ";
-            echo '<a class="btn btn-primary" href="#" role="button">Visitar</a> ';
+            echo '<a class="btn btn-primary" href="see_community.php?c='.$data["id_community"].'" role="button">Visitar</a> ';
             $id_community = $data["id_community"];
             $id_user = $_SESSION["id_user"];
             $sql = "SELECT * FROM is_part_of WHERE user = '$id_user' AND community = '$id_community'";
