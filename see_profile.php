@@ -56,7 +56,7 @@ mysqli_close($conn);
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Ver Comunidades</a></li>
+            <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="profile.php">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
@@ -88,6 +88,9 @@ mysqli_close($conn);
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
+              <a title='Stars' class='label label-success' style="padding:14px">
+                Seguir</a>
+              
           </h3>
     </div>
 </div>

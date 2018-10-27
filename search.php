@@ -4,6 +4,7 @@ include "inc/functions/connection.php";
 if(!isset($_SESSION["id_user"])){
   header("location:index.php");
 }
+$id_user = $_SESSION["id_user"];
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
@@ -143,34 +144,38 @@ if(!isset($_SESSION["id_user"])){
         if(!isset($data["username"])){
           echo "<h4>Nenhum usuário foi encontrado..</h4>";
         }else{
-          echo "<div class='panel panel-default panel-gray'>
-            <div class='panel-body'>";
-            echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
-            .$data["followers"]
-            ." <label class='glyphicon glyphicon-user'></label></label>";
-            echo " <label title='Seguindo' class='label label-default'>";
-            echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
-            echo " <label title='Stars' class='label label-default'>";
-            echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
-            echo "<br>@".$data["username"]."<br><br> ";
-            echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-            echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
-            echo "</div></div>";
-          while($data = mysqli_fetch_assoc($query)){
+          if($data["id_user"] != $id_user){
             echo "<div class='panel panel-default panel-gray'>
-            <div class='panel-body'>";
-            echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
-            .$data["followers"]
-            ." <label class='glyphicon glyphicon-user'></label></label>";
-            echo " <label title='Seguindo' class='label label-default'>";
-            echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
-            echo " <label title='Stars' class='label label-default'>";
-            echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
-            echo "<br>@".$data["username"]."<br><br> ";
-            echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-            echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
-            echo "</div></div>";
-          }
+              <div class='panel-body'>";
+              echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
+              .$data["followers"]
+              ." <label class='glyphicon glyphicon-user'></label></label>";
+              echo " <label title='Seguindo' class='label label-default'>";
+              echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+              echo " <label title='Stars' class='label label-default'>";
+              echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
+              echo "<br>@".$data["username"]."<br><br> ";
+              echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
+              echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+              echo "</div></div>";
+            }
+            while($data = mysqli_fetch_assoc($query)){
+              if($data["id_user"] != $id_user){
+                echo "<div class='panel panel-default panel-gray'>
+                <div class='panel-body'>";
+                echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
+                .$data["followers"]
+                ." <label class='glyphicon glyphicon-user'></label></label>";
+                echo " <label title='Seguindo' class='label label-default'>";
+                echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+                echo " <label title='Stars' class='label label-default'>";
+                echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
+                echo "<br>@".$data["username"]."<br><br> ";
+                echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
+                echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+                echo "</div></div>";
+              }
+            }
         }
       }
     }else{

@@ -91,6 +91,7 @@ mysqli_close($conn);
     </div>
 </div>
 </div>
+<br>
 <div class="container">
 <div class="row panel-gray">
     <div class="col-lg-10 col-lg-offset-1">
