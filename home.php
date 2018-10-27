@@ -128,7 +128,7 @@ $id_user = $_SESSION["id_user"];
                title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
                </span></a>";
             }
-            echo " <a href='del_post.php?p=$id_post&l=home.php'
+            echo " <a href='see_post.php?p=$id_post'
              title='Comentar' class='btn btn-default' id='like-btn'><span class='glyphicon glyphicon-comment'>
              </span></a>";
             if($post["id_user"] == $id_user){
