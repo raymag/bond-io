@@ -37,3 +37,10 @@ body{
     border-left: solid #ccc 1px;
     border-right: solid #ccc 1px;
 }
+#profilePic{
+    max-height:180px;
+}
+#backcontainer{
+    background:rgba(255, 250, 246, 0.7);
+    height:180px
+}
