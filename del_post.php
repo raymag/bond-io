@@ -23,6 +23,8 @@ if(!isset($_GET["p"]) || !isset($_GET["l"])){
             mysqli_query($conn, $sql);
             $sql = "DELETE FROM comments WHERE post = $id_post";
             mysqli_query($conn, $sql);
+            $sql = "DELETE FROM notifications WHERE post = $id_post";
+            mysqli_query($conn, $sql);
         }
     }
 }
