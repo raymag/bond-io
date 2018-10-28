@@ -51,16 +51,17 @@ mysqli_close($conn);
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <li>
-    <form class="navbar-form navbar-right" onsubmit="return false">
-      <div class="form-group">
       <?php
         if($notifications>0){
-          echo '<a href="notifications.php" class="btn btn-warning">'.$notifications
+          echo '<a href="notifications.php" class="btn btn-warning" id="dark-text-nav">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>';
+          echo '<a href="notifications.php" class="btn btn-default" id="btn-mobile-nav2"><span class="glyphicon glyphicon-globe"></span></a>';
         }
         ?>
+        </li><li>
+    <form class="navbar-form navbar-right" onsubmit="return false">
+      <div class="form-group">
         <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
       </div>
       <a id="nav-search-submit" class="btn btn-default"><label class="glyphicon glyphicon-search"></label></a>
@@ -71,7 +72,7 @@ mysqli_close($conn);
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Ver Comunidades</a></li>
+            <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="profile.php">Meu Perfil</a></li>
             <li><a href="#">Seguidores</a></li>
@@ -86,43 +87,21 @@ mysqli_close($conn);
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container-fluid">
-<div class="row" style="padding-top:50px;background:rgba(0, 0, 0, 0.8)">
-    <div class="col-lg-2" style="">
-    <img src="<?php echo $user["profile_pic"] ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image">
-    </div>
-    <div class="col-lg-10 jumbogotron" id="backcontainer">
-          <h1><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
-          <h3>
-              <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
-              <?php
-              //  echo $user["followers"];
-                ?>
-              <label class='glyphicon glyphicon-user'></label></label> 
-              <label title='Seguindo' class='label label-default' style="padding:14px">
-              <?php
-              //  echo $user["following"];
-               ?>
-              <label class='glyphicon glyphicon-arrow-down'></label></label> -->
-              <label title='Stars' class='label label-default' style="padding:14px">
-              <?php echo $user["stars"] ?>
-              <label class='glyphicon glyphicon-star'></label></label>
-          </h3>
-    </div>
-</div>
-</div>
-<br>
+<hr><hr><hr>
 <div class="container">
 <div class="row panel-gray">
     <div class="col-lg-10 col-lg-offset-1">
+      <h3 class="text-center">Notificações <a title="Limpar Notificações" href='del_all_notifications.php' class='btn btn-danger'>
+                  <span class='glyphicon glyphicon-remove'></span></a></h3>
         <?php
         $conn = connect();
-        $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts
-        JOIN communities ON posts.community = communities.id_community WHERE user = '$id_user'";
+        $sql = "SELECT *, date_format(notifications.r_date, '%d, %b, %Y, %T') as data_f FROM notifications
+        JOIN users ON acting_user = users.id_user
+        WHERE user = '$id_user'";
         if($query = mysqli_query($conn, $sql)){
-            $posts = array();
+            $notifications = array();
             while($row = mysqli_fetch_assoc($query)){
-                $posts[] = $row;
+                $notifications[] = $row;
             }
             function organizer($a, $b){
                 $a = $a['data_f'];
@@ -131,50 +110,42 @@ mysqli_close($conn);
                 if ($a == $b) return 0;
                 return ($a > $b) ? -1 : 1;
             }
-            usort($posts, "organizer");
-            foreach($posts as $post){
-                $text = $post["post_text"];
-                $likes = $post["likes"];
-                $id_post = $post["id_post"];
-                $id_community = $post["community"];
+            usort($notifications, "organizer");
+            foreach($notifications as $notification){
+                $acting_user = $notification["acting_user"];
+                $acting_user_fname = $notification["first_name"];
+                $acting_user_uname = $notification["username"];
+                $post = $notification["post"];
+                $community = $notification["community"];
+                $type = $notification["type"];
+                $id_notification = $notification["id_notification"];
+                $time = $notification["data_f"];
 
-                $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
-                if($q = mysqli_query($conn, $sql)){
-                  $comments_qnt = mysqli_fetch_assoc($q)["comments"];
-                }else{
-                  $comments_qnt = '';
+                switch($type){
+                  case "like":
+                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                     curtiu sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>";
+                    break;
+                  case "comment":
+                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    comentou sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>";
+                    break;
+                  default:
+                    $text = '';
                 }
 
                 echo "<div class='panel panel-primary'>
-                <div class='panel-heading'><strong>".$_SESSION["first_name"]." | 
-                <a href='see_community.php?c=$id_community' class='gray-text-link'>".$post["community_name"]
-                ."</a></strong> - <span class='gray-text'>@".$_SESSION["username"]." - ";
-                echo $post["data_f"]."</span></div>
+                <div class='panel-heading'><div class='row'>
+                <div class='col-lg-1 col-lg-offset-11'>";
+                echo "<a href='del_notification.php?n=$id_notification' class='btn btn-danger'>
+                  <span class='glyphicon glyphicon-remove'></span></a>";
+                echo "</div></div></div>
                 <div class='panel-body'>
                  $text
-                </div>
-                <div class='panel-footer'> ";
-                $sql = "SELECT * FROM likes WHERE post = $id_post AND user = $id_user";
-                if(isset(mysqli_fetch_assoc(mysqli_query($conn, $sql))["post"])){
-                 echo "<a href='like_post.php?p=$id_post&m=unlike&l=profile.php'
-                 title='Gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star'>
-                 </span></a>";
-                }else{
-                  echo "<a href='like_post.php?p=$id_post&m=like&l=profile.php'
-                   title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
-                   </span></a>";
-                }
-                echo " <a href='see_post.php?p=$id_post'
-                title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
-                </span></a>";
-                echo " <a href='del_post.php?p=$id_post&l=profile.php'
-                title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
-                </span></a>";
-                echo "</div>
-              </div>";
+                </div><div class='panel-footer'>$time</div></div>";
             }
-            if(count($posts)==0){
-                echo "<h4 class='text-center'>Você ainda não participa de nenhuma comunidade...</h4>";
+            if(count($notifications)==0){
+                echo "<h4 class='text-center'>Você ainda não possui nenhuma notificação...</h4>";
             }
         }
         mysqli_close($conn);
