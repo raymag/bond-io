@@ -19,6 +19,10 @@ if(!isset($_GET["p"]) || !isset($_GET["l"])){
             mysqli_query($conn, $sql);
             $sql = "DELETE FROM posts WHERE user = $id_user AND id_post = $id_post";
             mysqli_query($conn, $sql);
+            $sql = "UPDATE users SET stars = stars - 1 WHERE id_user = $id_user";
+            mysqli_query($conn, $sql);
+            $sql = "DELETE FROM comments WHERE post = $id_post";
+            mysqli_query($conn, $sql);
         }
     }
 }
