@@ -4,6 +4,15 @@ include "inc/functions/connection.php";
 if(!isset($_SESSION["id_user"])){
   header("location:index.php");
 }
+$id_user = $_SESSION["id_user"];
+$conn = connect();
+$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user";
+if($q = mysqli_query($conn, $sql)){
+  $notifications = mysqli_fetch_assoc($q)["qnt"];
+}else{
+  $notifications = 0;
+}
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
@@ -37,6 +46,14 @@ if(!isset($_SESSION["id_user"])){
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <li>
+      <?php
+        if($notifications>0){
+          echo '<a href="notifications.php" class="btn btn-warning" id="dark-text-nav">'.$notifications
+          .' <span class="glyphicon glyphicon-globe"></span></a>';
+        }else{
+          echo '<a href="notifications.php" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>';
+        }
+        ?></li><li>
     <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
         <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
@@ -49,12 +66,12 @@ if(!isset($_SESSION["id_user"])){
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="#">Ver Comunidades</a></li>
+            <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="profile.php">Meu Perfil</a></li>
-            <li><a href="#">Seguidores</a></li>
+            <!-- <li><a href="#">Seguidores</a></li> -->
             <li role="separator" class="divider"></li>
-            <li><a href="#">Configurações</a></li>
+            <!-- <li><a href="#">Configurações</a></li> -->
             <li><a href="logout.php">Sair</a></li>
           </ul>
         </li>
