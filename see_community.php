@@ -164,8 +164,22 @@ if(!isset($_GET["c"])){
              $text = $post["post_text"];
              $likes = $post["likes"];
              $id_post = $post["id_post"];
-             echo "<div class='panel panel-primary'>
-             <div class='panel-heading'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]." - ";
+
+             $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+             if($q = mysqli_query($conn, $sql)){
+               $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+             }else{
+               $comments_qnt = '';
+             }
+
+             echo "<div class='panel panel-primary'>";
+             if($post["user"]==$id_user){
+               $link = "profile.php";
+             }else{
+               $link = "see_profile.php?p=".$post["user"];
+             }
+             echo "
+             <div class='panel-heading'><a href='$link' class='gray-text-link'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]."</a> - ";
              echo $post["data_f"]."</span></div>
              <div class='panel-body'>
               $text
@@ -181,6 +195,9 @@ if(!isset($_GET["c"])){
                 title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
                 </span></a>";
              }
+             echo " <a href='see_post.php?p=$id_post'
+                title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
+                </span></a>";
              if($post["id_user"] == $id_user){
               echo " <a href='del_post.php?p=$id_post&l=see_community.php?c=$id_community'
               title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
