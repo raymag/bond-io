@@ -34,6 +34,16 @@ body{
     text-decoration: none;
     color: #f93;
 }
+.dark-text{
+    color: #5f5f5f;
+}
+.dark-text-link{
+    color: #222;
+}
+.dark-text-link:hover{
+    text-decoration: none;
+    color: rgb(119, 0, 255);
+}
 .border-div{
     padding: 5px;
     border: solid 1px #ccc;
