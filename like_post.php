@@ -28,6 +28,11 @@ if(!isset($_GET["p"]) || !isset($_GET["m"]) || !isset($_GET["l"])){
                     mysqli_query($conn, $sql);
                     $sql = "UPDATE users SET stars = stars + 1 WHERE id_user = $id_user2";
                     mysqli_query($conn, $sql);
+                    if($id_user!=$id_user2){
+                        $sql = "INSERT INTO notifications (user, post, type, acting_user)
+                                VALUES ($id_user2,$id_post,'like',$id_user)";
+                        mysqli_query($conn, $sql);
+                    }
                     break;
                 default:
                     $sql = "DELETE FROM likes WHERE user = $id_user AND post = $id_post";
