@@ -98,7 +98,24 @@ if(isset($_POST["title"])){
         <strong>Falha!</strong> Este título já está em uso.
         </div>";
     }else{
-      $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
+      if(isset($_FILES["inputFile"]["name"]) && $_FILES["inputFile"]["error"]==0){
+        $file_tmp = $_FILES["inputFile"]["tmp_name"];
+        $name = $_FILES["inputFile"]["name"];
+
+        $extension = pathinfo($name, PATHINFO_EXTENSION);
+        $extension = strtolower($extension);
+
+        if(strstr('.jpg;.jpeg;.gif;.png', $extension)){
+          $newName = uniqid(time()).'.'.$extension;
+          $destiny = 'assets/upload/img/'.$newName;
+          @move_uploaded_file($file_tmp, $destiny);
+        }
+
+        $sql = "INSERT INTO communities (community_name, profile_pic, community_description)
+         VALUES ('$title', '$destiny', '$desc')";
+      }else{
+        $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
+      }
       if(mysqli_query($conn, $sql)){
         echo "<div class='alert alert-success'>
         <strong>Sucesso!</strong> Comunidade criada com êxito.
@@ -114,7 +131,7 @@ if(isset($_POST["title"])){
 mysqli_close($conn);
 ?>
     <h3>Criar nova comunidade</h3>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       <div class="form-group">
         <label for="inputTitleCommunity">Título</label>
         <input type="text" class="form-control" name="title" id="inputTitleCommunity" placeholder="Ex: Torcedores do Cruzeiro">
@@ -125,7 +142,7 @@ mysqli_close($conn);
       </div>
       <div class="form-group">
         <label for="inputIconCommunity">Ícone</label>
-        <input type="file" id="inputIconCommunity">
+        <input type="file" id="inputIconCommunity" name="inputFile"> 
         <!-- <p class="help-block"></p> -->
       </div>
       <!-- <div class="checkbox">
