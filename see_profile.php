@@ -79,17 +79,21 @@ mysqli_close($conn);
     <div class="col-lg-10 jumbogotron" id="backcontainer">
           <h1><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
           <h3>
-              <label title='Seguidores' class='label label-default' style="padding:14px">
-              <?php echo $user["followers"] ?>
+              <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
+              <?php
+              //  echo $user["followers"];
+               ?>
               <label class='glyphicon glyphicon-user'></label></label> 
               <label title='Seguindo' class='label label-default' style="padding:14px">
-              <?php echo $user["following"] ?>
-              <label class='glyphicon glyphicon-arrow-down'></label></label>
+              <?php
+              //  echo $user["following"];
+               ?>
+              <label class='glyphicon glyphicon-arrow-down'></label></label> -->
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
-              <a title='Stars' class='label label-success' style="padding:14px">
-                Seguir</a>
+              <!-- <a title='Stars' class='label label-success' style="padding:14px">
+                Seguir</a> -->
               
           </h3>
     </div>
