@@ -109,8 +109,20 @@ $id_user = $_SESSION["id_user"];
             $likes = $post["likes"];
             $id_post = $post["id_post"];
             $id_community = $post["id_community"];
+
+            $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+            if($q = mysqli_query($conn, $sql)){
+                $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+            }else{
+                $comments_qnt = '';
+            }
+            if($post["user"] == $id_user){
+              $link = "profile.php";
+            }else{
+              $link = "see_profile.php?p=".$post["user"];
+            }
             echo "<div class='panel panel-primary'>
-            <div class='panel-heading'><strong>".$post["first_name"]." | 
+            <div class='panel-heading'><a href='$link' class='gray-text-link'><strong>".$post["first_name"]."</a> | 
             <a href='see_community.php?c=$id_community' class='gray-text-link'>".$post["community_name"]
             ."</a></strong> - <span class='gray-text'>@".$post["username"]." - ";
             echo $post["data_f"]."</span></div>
@@ -129,7 +141,7 @@ $id_user = $_SESSION["id_user"];
                </span></a>";
             }
             echo " <a href='see_post.php?p=$id_post'
-             title='Comentar' class='btn btn-default' id='like-btn'><span class='glyphicon glyphicon-comment'>
+             title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
              </span></a>";
             if($post["id_user"] == $id_user){
              echo " <a href='del_post.php?p=$id_post&l=home.php'
@@ -168,12 +180,16 @@ $id_user = $_SESSION["id_user"];
     </div>
     <div class="panel-body">
       <center>
-        <label title='Seguidores' class='label label-default' style="padding:14px">
-          <?php echo $user["followers"] ?>
+        <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
+          <?php
+          //  echo $user["followers"];
+            ?>
         <label class='glyphicon glyphicon-user'></label></label>
         <label title='Seguindo' class='label label-default' style="padding:14px">
-          <?php echo $user["following"] ?>
-        <label class='glyphicon glyphicon-arrow-down'></label></label>
+          <?php
+          //  echo $user["following"];
+            ?>
+        <label class='glyphicon glyphicon-arrow-down'></label></label> -->
         <label title='Stars' class='label label-default' style="padding:14px">
           <?php echo $user["stars"] ?>
         <label class='glyphicon glyphicon-star'></label></label>
