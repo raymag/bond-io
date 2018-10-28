@@ -78,12 +78,16 @@ mysqli_close($conn);
     <div class="col-lg-10 jumbogotron" id="backcontainer">
           <h1><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
           <h3>
-              <label title='Seguidores' class='label label-default' style="padding:14px">
-              <?php echo $user["followers"] ?>
+              <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
+              <?php
+              //  echo $user["followers"];
+                ?>
               <label class='glyphicon glyphicon-user'></label></label> 
               <label title='Seguindo' class='label label-default' style="padding:14px">
-              <?php echo $user["following"] ?>
-              <label class='glyphicon glyphicon-arrow-down'></label></label>
+              <?php
+              //  echo $user["following"];
+               ?>
+              <label class='glyphicon glyphicon-arrow-down'></label></label> -->
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
@@ -117,6 +121,14 @@ mysqli_close($conn);
                 $likes = $post["likes"];
                 $id_post = $post["id_post"];
                 $id_community = $post["community"];
+
+                $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+                if($q = mysqli_query($conn, $sql)){
+                  $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+                }else{
+                  $comments_qnt = '';
+                }
+
                 echo "<div class='panel panel-primary'>
                 <div class='panel-heading'><strong>".$_SESSION["first_name"]." | 
                 <a href='see_community.php?c=$id_community' class='gray-text-link'>".$post["community_name"]
@@ -136,6 +148,9 @@ mysqli_close($conn);
                    title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
                    </span></a>";
                 }
+                echo " <a href='see_post.php?p=$id_post'
+                title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
+                </span></a>";
                 echo " <a href='del_post.php?p=$id_post&l=profile.php'
                 title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
                 </span></a>";
