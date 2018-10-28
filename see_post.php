@@ -10,7 +10,7 @@ if(!isset($_GET["p"])){
 $id_user = $_SESSION["id_user"];
 $id_post = $_GET["p"];
 $conn = connect();
-$sql = "SELECT * FROM posts
+$sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts
 JOIN users ON posts.user = users.id_user
 JOIN communities ON posts.community = communities.id_community
 WHERE id_post = '$id_post'";
@@ -19,6 +19,7 @@ if($query = mysqli_query($conn, $sql)){
     if(!isset($post["id_user"])){
         header("location:home.php");
     }
+    
 }else{
     header("location:home.php");
 }
@@ -92,59 +93,116 @@ mysqli_close($conn);
                     <div class="col-lg-8">
                         <?php
                         if($post["id_user"]==$id_user){
-                         echo "<a href='profile.php'".' class="gray-text-link">
-                         <strong>'.$post["first_name"].'</strong>
-                         - <span class="gray-text">@'.$post["username"].'</span></a>';   
+                            echo "<a href='profile.php'".' class="gray-text-link">
+                            <strong>'.$post["first_name"].'</strong>
+                            - <span class="gray-text">@'.$post["username"].' - '.$post["data_f"].'</span></a>';   
                         }else{
-                            echo "<a href='see_profile.php?p='".$post["id_user"].' class="gray-text-link">
-                         <strong>'.$post["first_name"].'</strong>
-                         - <span class="gray-text">@'.$post["username"].'</span></a>'; 
+                            echo "<a href='see_profile.php?p=".$post["id_user"]."' class='gray-text-link'>
+                            <strong>".$post["first_name"].'</strong>
+                            - <span class="gray-text">@'.$post["username"].' - '.$post["data_f"].'</span></a>'; 
                         }
                         ?>
                     </div>
                     <div class="col-lg-3 col-lg-offset-1">
-                        ads
+                        <?php
+                        if(isset($_POST["input_txt"][0])){
+                            $txt = $_POST["input_txt"];
+                            $conn = connect();
+                            $sql = "INSERT INTO comments (user, post, comment_text) 
+                            VALUES ($id_user, $id_post, '$txt')";
+                            mysqli_query($conn, $sql);
+                            mysqli_close($conn);
+                        }
+                        $conn = connect();
+                        $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+                        if($q = mysqli_query($conn, $sql)){
+                            $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+                        }else{
+                            $comments_qnt = '';
+                        }
+                        mysqli_close($conn);
+                        $conn = connect();
+                        $sql = "SELECT * FROM likes WHERE post = ".$post["id_post"]." AND user = $id_user";
+                        if(isset(mysqli_fetch_assoc(mysqli_query($conn, $sql))["post"])){
+                            echo "<a href='like_post.php?p=$id_post&m=unlike&l=see_post.php?p=$id_post'
+                            title='Gostei' class='btn btn-default' id='like-btn'>".$post["likes"]." <span class='glyphicon glyphicon-star'>
+                            </span></a>";
+                           }else{
+                             echo "<a href='like_post.php?p=$id_post&m=like&l=see_post.php?p=$id_post'
+                              title='Não gostei' class='btn btn-default' id='like-btn'>".$post["likes"]." <span class='glyphicon glyphicon-star-empty'>
+                              </span></a>";
+                           }
+                           echo " <a href='see_post.php?p=$id_post#commentInput'
+                            title='Comentar' class='btn btn-default' id='like-btn'>$comments_qnt <span class='glyphicon glyphicon-comment'>
+                            </span></a>";
+                            if($post["id_user"] == $id_user){
+                                echo " <a href='del_post.php?p=$id_post&l=home.php'
+                                title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
+                                </span></a>";
+                               }
+                        mysqli_close($conn);
+                        ?>
                     </div>
                 </div>
             </div>
             <div class="panel-body">
                 <div class="row border-bottom">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <p>Lorem ipsum dolor sit amet consectetur 
-                        adipisicing elit. Officiis deleniti voluptatum
-                         nisi magni adipisci quis repudiandae 
-                         veniam sunt quae commodi molestiae 
-                         id a culpa sed minima minus,
-                          vitae impedit ipsam.</p>
+                        <p><?php echo $post["post_text"] ?></p>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-lg-10 col-lg-offset-1">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </div>
-                            <div class="panel-body">
-                                Nobis amet temporibus eos labore voluptatem facilis! Magni vitae reiciendis repudiandae, nesciunt ipsa perspiciatis provident eligendi nobis soluta nihil sequi aperiam neque?
-                                Sapiente impedit minus officiis exercitationem unde molestiae. Vitae architecto natus nesciunt dignissimos consectetur praesentium quibusdam illo culpa! Ipsam eum accusamus perferendis eos explicabo, odio dolorum placeat reprehenderit facere quasi voluptates.
-                                Expedita sint ipsa nulla sapiente dolore veniam, consequuntur vitae laborum itaque voluptas modi excepturi doloribus saepe perferendis adipisci odit ipsam perspiciatis, architecto consectetur quae voluptates quam corporis distinctio quis! Inventore!
-                                Hic commodi libero ducimus quos beatae expedita, laboriosam, ipsam mollitia, nostrum est veniam. Repudiandae sunt molestiae itaque cum esse, mollitia quibusdam ullam, temporibus veniam consectetur doloribus reprehenderit. Beatae, repudiandae animi!
-                                Unde pariatur provident labore officiis amet. Reiciendis, ratione. Reprehenderit dolores mollitia quis, cumque delectus nulla perspiciatis assumenda nihil necessitatibus molestias repellendus pariatur libero vero magnam quibusdam? Ducimus vero quidem soluta.
-                                Ipsum, molestiae deserunt? Ducimus hic dolorum similique, deleniti illum sapiente itaque eos architecto voluptatum obcaecati nulla, aperiam, saepe natus qui tempora! Blanditiis suscipit minus adipisci ex ea unde! Vel, modi.
-                            </div>
-                            <div class="panel-footer">
-                                Quibusdam dolore quia architecto suscipit laborum earum commodi sed exercitationem, libero, eaque, maiores esse cumque est fugiat asperiores? Excepturi, consectetur fuga dignissimos voluptatem accusantium unde est rem id enim quas!
-                                Eligendi libero officia pariatur incidunt animi suscipit quaerat, porro praesentium vero consequatur impedit ratione eos unde ullam nam cum exercitationem sit earum nemo repellat harum nulla aliquid optio asperiores! Earum.
-                            </div>
-                    </div>
+                        <?php
+                        $conn = connect();
+                        $sql = "SELECT *, date_format(comments.r_date, '%d, %b, %Y, %T') as data_f FROM comments 
+                        JOIN users ON user = users.id_user
+                        WHERE post = $id_post";
+                        if($query = mysqli_query($conn, $sql)){
+                            $comments = array();
+                            while($comment = mysqli_fetch_assoc($query)){
+                                $comments[] = $comment;
+                            }
+                            function organizer($a, $b){
+                                $a = $a["data_f"];
+                                $b = $b["data_f"];
+
+                                if($a == $b) return 0;
+                                return ($a > $b) ? -1 : 0;
+                            }
+                            usort($comments, "organizer");
+                            foreach($comments as $comment){
+                                echo "<div class='panel panel-info'>";
+                                echo '<div class="panel-heading">';
+                                if($comment["user"]==$id_user){
+                                    echo "<a href='profile.php'".' class="dark-text-link">
+                                    <strong>'.$comment["first_name"].'</strong>
+                                    - <span class="dark-text">@'.$comment["username"].' | '.$comment["data_f"].'</span></a>';   
+                                   }else{
+                                       echo "<a href='see_profile.php?p=".$comment["user"]."' class='dark-text-link'>
+                                    <strong>".$comment["first_name"].'</strong>
+                                    - <span class="dark-text">@'.$comment["username"].' | '.$comment["data_f"].'</span></a>'; 
+                                   }
+                                echo '</div>';
+                                echo '<div class="panel-body">';
+                                echo $comment["comment_text"];
+                                echo '</div>';
+    
+                                echo '</div>';
+                            }
+                        }
+                        mysqli_close($conn);
+                        ?>
                     </div>
                 </div>
             </div>
             <div class="panel-footer">
+                <?php
+                ?>
                 <form method="post">
                   <div class="form-group">
-                    <textarea class="form-control" name="input_txt" rows='3' placeholder="Comentário..."></textarea>
+                    <textarea class="form-control" id="commentInput" name="input_txt" rows='3' placeholder="Comentário..." maxLength="550"></textarea>
                   </div>
                   <button type="submit" class="btn btn-success btn-block">Comentar</button>
                 </form>
