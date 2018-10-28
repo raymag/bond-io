@@ -77,3 +77,9 @@ body{
 #no-resizable-textarea{
     resize: none;
 }
+#dark-text-nav{
+    color: #222;
+}
+#dark-text-nav:hover{
+    color: #eee;
+}
