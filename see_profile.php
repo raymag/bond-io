@@ -11,6 +11,14 @@ $sql = "SELECT * FROM users WHERE id_user = $id_user";
 $query = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($query);
 mysqli_close($conn);
+$conn = connect();
+$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user2";
+if($q = mysqli_query($conn, $sql)){
+  $notifications = mysqli_fetch_assoc($q)["qnt"];
+}else{
+  $notifications = 0;
+}
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="PT-BR">
@@ -44,6 +52,14 @@ mysqli_close($conn);
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
       <li>
+      <?php
+        if($notifications>0){
+          echo '<a href="notifications.php" class="btn btn-warning" id="dark-text-nav">'.$notifications
+          .' <span class="glyphicon glyphicon-globe"></span></a>';
+        }else{
+          echo '<a href="notifications.php" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>';
+        }
+        ?></li><li>
     <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
         <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
@@ -59,9 +75,9 @@ mysqli_close($conn);
             <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="profile.php">Meu Perfil</a></li>
-            <li><a href="#">Seguidores</a></li>
+            <!-- <li><a href="#">Seguidores</a></li> -->
             <li role="separator" class="divider"></li>
-            <li><a href="#">Configurações</a></li>
+            <!-- <li><a href="#">Configurações</a></li> -->
             <li><a href="logout.php">Sair</a></li>
           </ul>
         </li>
@@ -124,6 +140,14 @@ mysqli_close($conn);
                 $likes = $post["likes"];
                 $id_post = $post["id_post"];
                 $id_community = $post["community"];
+
+                $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+                if($q = mysqli_query($conn, $sql)){
+                  $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+                }else{
+                  $comments_qnt = '';
+                }
+
                 echo "<div class='panel panel-primary'>
                 <div class='panel-heading'><strong>".$user["first_name"]." | 
                 <a href='see_community.php?c=$id_community' class='gray-text-link'>".$post["community_name"]
@@ -143,6 +167,9 @@ mysqli_close($conn);
                    title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
                    </span></a>";
                 }
+                echo " <a href='see_post.php?p=$id_post'
+                title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
+                </span></a>";
                 echo " <a href='del_post.php?p=$id_post&u=$id_user&l=see_profile.php?p=$id_user'
                 title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
                 </span></a>";
