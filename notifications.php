@@ -117,17 +117,26 @@ mysqli_close($conn);
                 $acting_user_uname = $notification["username"];
                 $post = $notification["post"];
                 $community = $notification["community"];
+
+                $sql = "SELECT community_name FROM communities 
+                WHERE id_community = $community";
+                if($query = mysqli_query($conn, $sql)){
+                  $community_name = mysqli_fetch_assoc($query)["community_name"];
+                }
+
                 $type = $notification["type"];
                 $id_notification = $notification["id_notification"];
                 $time = $notification["data_f"];
                 switch($type){
                   case "like":
                     $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
-                     curtiu sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>";
+                     curtiu sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
+                     em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
                   case "comment":
                     $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
-                    comentou sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>";
+                    comentou sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
+                    em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
                   case "comment_another":
                     $sql = "SELECT id_user,first_name, username FROM posts
@@ -138,8 +147,14 @@ mysqli_close($conn);
                       $r_user_uname = $data["username"];
                     }
                     $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
-                    comentou a <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a> 
-                    de <strong>$r_user_fname</strong> (@$r_user_uname)";
+                    também comentou a <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a> 
+                    de <strong>$r_user_fname</strong> (@$r_user_uname) 
+                    em <a href='see_community.php?c=$community'>$community_name</a>.";
+                    break;
+                  case "comment_own":
+                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    comentou a própria <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
+                    em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
                   default:
                     $text = '';
