@@ -67,15 +67,13 @@ if(isset($_SESSION["id_user"])){
 </div> -->
 <div class="row">
   <div class="col-lg-4 col-lg-offset-1">
-  <div class="row" style="">
-  IMAGEM
-  <img src="assets/img/mountain.jpg" class="img-responsive" alt="Responsive image">
+    <div class="jumbotron" style="background:url('assets/img/success.jpg');
+    background-size:cover;">
+      <h1 style="color:#ccc">Junte-se ao <strong>BOND.</strong></h1>
+      <p><span style="color:#aaa">Aqui você encontra comunidades sobre tudo o que você adora</span></p>
+    </div>
+    <h3 class="visible-xs">Para fazer login, abra o menu</h3>
   </div>
-  <hr>
-  <div class="row">
-  INFO
-  </div>
-</div>
 
   <div class="col-lg-5 col-lg-offset-1" style="border-left:#ccc solid 2px;padding-left:40px">
   <div class="row">
@@ -138,8 +136,26 @@ if(isset($_POST["username-s"][0])){
     <strong>Atenção!</strong> Este nome de usuário já está em uso.
     </div>";
       }else{
-        $sql = "INSERT INTO users (username, first_name, last_name, birthday, passwd, gender) 
+        if(isset($_FILES["inputFile"]["name"]) && $_FILES["inputFile"]["error"]==0){
+          $file_tmp = $_FILES["inputFile"]["tmp_name"];
+          $name = $_FILES["inputFile"]["name"];
+
+          $extension = pathinfo($name, PATHINFO_EXTENSION);
+          $extension = strtolower($extension);
+
+          if(strstr('.jpg;.jpeg;.gif;.png', $extension)){
+            $newName = uniqid(time()).'.'.$extension;
+            $destiny = 'assets/upload/img/'.$newName;
+            @move_uploaded_file($file_tmp, $destiny);
+          }else{
+            $destiny = 'assets/img/default-user-icon.png';
+          }
+        $sql = "INSERT INTO users (username, first_name, last_name, birthday, passwd, gender, profile_pic) 
+        VALUES ('$username','$first_name','$last_name','$birthday','$passwd', '$gender', '$destiny')";
+        }else{
+          $sql = "INSERT INTO users (username, first_name, last_name, birthday, passwd, gender) 
         VALUES ('$username','$first_name','$last_name','$birthday','$passwd', '$gender')";
+        }
         if(mysqli_query($conn, $sql)){
           echo "<div class='alert alert-success'>
     <strong>Sucesso!</strong> Usuário cadastrado com êxito.
@@ -156,7 +172,7 @@ mysqli_close($conn);
     Cadastro
     </h3>
 
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label for="inputUsername-s">Nome de Usuário</label>
     <input type="text" required class="form-control" id="inputUsername-s" name="username-s" placeholder="Ex: Bruna620">
@@ -198,7 +214,12 @@ mysqli_close($conn);
       <input type="radio" name="gender" checked  required value="O"> Outro
     </label>
   </div>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <div class="form-group">
+        <label for="inputIconCommunity">Foto de Perfil</label>
+        <input type="file" id="inputIconCommunity" name="inputFile"> 
+        <p class="help-block">A foto de perfil é opcional</p>
+      </div>
+  <button type="submit" class="btn btn-primary">Criar Conta</button>
 </form>
   </div> 
 </div>
