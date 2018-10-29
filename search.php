@@ -96,7 +96,8 @@ mysqli_close($conn);
       if($query = mysqli_query($conn, $sql)){
         $data = mysqli_fetch_assoc($query);
         if(!isset($data["community_name"])){
-          echo "<h4>Nenhuma comunidade foi encontrada..</h4>";
+          echo "<h4>Nenhuma comunidade foi encontrada... <br>
+           <a href='create_community.php'>Deseja criar uma nova?</a></h4>";
         }else{
           echo "<div class='panel panel-default panel-gray'>
             <div class='panel-body'>";
@@ -163,32 +164,34 @@ mysqli_close($conn);
           if($data["id_user"] != $id_user){
             echo "<div class='panel panel-default panel-gray'>
               <div class='panel-body'>";
-              echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
-              .$data["followers"]
-              ." <label class='glyphicon glyphicon-user'></label></label>";
-              echo " <label title='Seguindo' class='label label-default'>";
-              echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+              // <label title='Seguidores' class='label label-default'>"
+              // .$data["followers"]
+              // ." <label class='glyphicon glyphicon-user'></label></label>";
+              // echo " <label title='Seguindo' class='label label-default'>";
+              // echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+              echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - ";
               echo " <label title='Stars' class='label label-default'>";
               echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
               echo "<br>@".$data["username"]."<br><br> ";
               echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-              echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+              // echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
               echo "</div></div>";
             }
             while($data = mysqli_fetch_assoc($query)){
               if($data["id_user"] != $id_user){
                 echo "<div class='panel panel-default panel-gray'>
                 <div class='panel-body'>";
-                echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - <label title='Seguidores' class='label label-default'>"
-                .$data["followers"]
-                ." <label class='glyphicon glyphicon-user'></label></label>";
-                echo " <label title='Seguindo' class='label label-default'>";
-                echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+                // <label title='Seguidores' class='label label-default'>"
+                // .$data["followers"]
+                // ." <label class='glyphicon glyphicon-user'></label></label>";s
+                // echo " <label title='Seguindo' class='label label-default'>";
+                // echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
+                echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - "; 
                 echo " <label title='Stars' class='label label-default'>";
                 echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
                 echo "<br>@".$data["username"]."<br><br> ";
                 echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-                echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+                // echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
                 echo "</div></div>";
               }
             }
