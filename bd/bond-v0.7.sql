@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 28-Out-2018 às 22:06
+-- Generation Time: 29-Out-2018 às 01:34
 -- Versão do servidor: 10.1.36-MariaDB
 -- versão do PHP: 7.2.10
 
@@ -35,43 +35,33 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `comment_text` text NOT NULL,
   `r_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_comment`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `comments`
 --
 
 INSERT INTO `comments` (`id_comment`, `user`, `post`, `comment_text`, `r_date`) VALUES
-(1, 3, 7, 'kkkkkkkkk', '2018-10-28 13:11:37'),
-(2, 3, 7, 'ComentÃ¡rios em funcionamento total', '2018-10-28 13:18:33'),
-(3, 3, 18, 'Seu oi', '2018-10-28 13:19:14'),
-(4, 3, 17, 'EntÃ£o vai', '2018-10-28 13:20:48'),
-(5, 3, 17, 'EntÃ£o vai', '2018-10-28 13:21:34'),
-(6, 3, 17, 'Pegou', '2018-10-28 13:21:45'),
-(7, 3, 17, 'kkkkkkk', '2018-10-28 13:22:01'),
-(8, 4, 17, 'Troucha', '2018-10-28 13:31:03'),
-(9, 4, 17, 'Pera... Ã© com x, nÃ£o?', '2018-10-28 13:31:21'),
-(10, 3, 17, 'Sla', '2018-10-28 13:31:40'),
-(11, 3, 17, '..', '2018-10-28 13:41:58'),
-(12, 3, 17, 'sssssssssssssssss', '2018-10-28 13:42:18'),
-(13, 3, 18, 'kkkkk', '2018-10-28 13:42:40'),
-(14, 3, 18, 'khgk', '2018-10-28 13:44:32'),
-(15, 3, 18, 'perfeito', '2018-10-28 13:44:39'),
-(16, 3, 19, 'asdasdasd', '2018-10-28 13:47:44'),
-(20, 4, 18, 'sdgsd', '2018-10-28 14:02:58'),
-(21, 4, 29, 'd', '2018-10-28 14:27:20'),
-(22, 4, 15, '.', '2018-10-28 15:26:20'),
-(23, 4, 17, 'kkjj', '2018-10-28 16:13:49'),
-(24, 4, 29, 'e', '2018-10-28 17:03:12'),
-(25, 4, 18, 'x', '2018-10-28 17:03:20'),
-(26, 4, 18, 'sd', '2018-10-28 17:05:08'),
-(27, 4, 18, 'adsdadas', '2018-10-28 17:05:12'),
-(28, 4, 18, 'notificar!', '2018-10-28 17:06:31'),
-(29, 3, 16, 'x', '2018-10-28 17:21:17'),
-(30, 3, 7, 'agora o que fela da pota?', '2018-10-28 17:21:35'),
-(31, 3, 7, 'Toma vergonha nessa sua cara, seu viado', '2018-10-28 17:21:45'),
-(32, 3, 7, 'Pau no CU', '2018-10-28 17:21:51'),
-(33, 4, 4, 'como assim poar?', '2018-10-28 17:38:44');
+(1, 1, 1, 'Sigam as regras \"Ã©ticas\" e tenham um bom dia!', '2018-10-28 20:15:24'),
+(2, 1, 1, 'Se alguÃ©m quiser jogar rpg me chama!', '2018-10-28 20:20:26'),
+(3, 2, 2, 'Pode ser, vocÃª tem grupo?', '2018-10-28 20:23:30'),
+(4, 2, 2, 'Se tiver me fala', '2018-10-28 20:25:01'),
+(5, 1, 4, 'Seja bem vindo entÃ£o', '2018-10-28 20:25:24'),
+(6, 1, 2, 'Tenho nÃ£o, mas tenho interesse em jogar', '2018-10-28 20:26:00'),
+(7, 3, 4, 'OlÃ¡, tambÃ©m sou', '2018-10-28 20:28:35'),
+(8, 3, 4, 'Pq vc usa essa foto de perfil?', '2018-10-28 20:29:04'),
+(9, 3, 2, 'Eu tenho', '2018-10-28 20:29:29'),
+(10, 2, 4, 'Pq eu quero', '2018-10-28 20:33:59'),
+(11, 3, 4, ' aposto q joga de bÃ¡rbaro e anÃ£o!', '2018-10-28 20:41:11'),
+(12, 2, 4, 'afs', '2018-10-28 20:41:33'),
+(13, 1, 4, 'poxa', '2018-10-28 20:45:46'),
+(14, 3, 4, 'poxa nada', '2018-10-28 20:55:19'),
+(15, 1, 4, '.', '2018-10-28 20:58:41'),
+(16, 3, 4, 'blz', '2018-10-28 21:00:16'),
+(17, 1, 4, 'x', '2018-10-28 21:02:22'),
+(18, 4, 4, '.', '2018-10-28 21:05:55'),
+(19, 1, 4, 'quem Ã© bruno?', '2018-10-28 21:10:15'),
+(20, 1, 4, 'quem Ã© bruno?', '2018-10-28 21:10:47');
 
 -- --------------------------------------------------------
 
@@ -87,21 +77,15 @@ CREATE TABLE IF NOT EXISTS `communities` (
   `community_description` varchar(500) DEFAULT NULL,
   `members` int(11) DEFAULT '0',
   PRIMARY KEY (`id_community`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `communities`
 --
 
 INSERT INTO `communities` (`id_community`, `community_name`, `r_date`, `profile_pic`, `community_description`, `members`) VALUES
-(1, 'RPG', '2018-10-26 19:38:35', 'assets/img/default-community-icon.png', 'Clube do RPG', 2),
-(2, 'Cruzeiro Esporte Clube', '2018-10-26 19:42:00', 'assets/img/cruzeiro.jpg', '...', 2),
-(3, 'RolimÃ£ Racers', '2018-10-26 20:25:36', 'assets/img/default-community-icon.png', 'sla', 1),
-(4, 'FORRÃ“', '2018-10-27 00:45:41', 'assets/img/default-community-icon.png', '.....', 1),
-(5, 'Doadores de Sangue', '2018-10-27 08:23:37', 'assets/img/default-community-icon.png', 'Comidade para quem doa e necessita de sangue', 2),
-(6, 'MÃºsicos e Musicista', '2018-10-27 08:47:54', 'assets/img/default-community-icon.png', 'Comunidade para mÃºsicos', 0),
-(7, 'IF da  DepressÃ£o', '2018-10-28 17:57:01', 'assets/upload/img/15407602215bd6229d3f2eb.gif', 'Vou nem comentar', 1),
-(8, 'Clube do Terror', '2018-10-28 18:05:42', 'assets/upload/img/15407607425bd624a612195.jpg', '#@#Â¨$#&*!@$!', 0);
+(1, 'IF da DepressÃ£o', '2018-10-28 20:14:37', 'assets/upload/img/15407684775bd642dd7413d.jpg', '..', 2),
+(2, 'RPG de Mesa', '2018-10-28 20:18:36', 'assets/upload/img/15407687165bd643cc33234.png', 'Comunidade para jogadores de rpg', 4);
 
 -- --------------------------------------------------------
 
@@ -129,22 +113,19 @@ CREATE TABLE IF NOT EXISTS `is_part_of` (
   `community` int(11) NOT NULL,
   `r_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_is_part_of`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `is_part_of`
 --
 
 INSERT INTO `is_part_of` (`id_is_part_of`, `user`, `community`, `r_date`) VALUES
-(26, 3, 5, '2018-10-27 08:23:50'),
-(31, 4, 1, '2018-10-27 11:13:34'),
-(37, 3, 2, '2018-10-27 14:36:17'),
-(38, 3, 1, '2018-10-27 14:36:30'),
-(39, 4, 5, '2018-10-27 14:59:54'),
-(41, 3, 4, '2018-10-27 15:23:12'),
-(42, 4, 3, '2018-10-27 17:06:44'),
-(45, 4, 2, '2018-10-28 14:40:47'),
-(46, 3, 7, '2018-10-28 17:57:45');
+(1, 1, 1, '2018-10-28 20:14:37'),
+(2, 1, 2, '2018-10-28 20:18:36'),
+(3, 2, 1, '2018-10-28 20:22:36'),
+(4, 2, 2, '2018-10-28 20:22:48'),
+(7, 3, 2, '2018-10-28 20:30:10'),
+(8, 4, 2, '2018-10-28 21:05:45');
 
 -- --------------------------------------------------------
 
@@ -157,23 +138,21 @@ CREATE TABLE IF NOT EXISTS `likes` (
   `user` int(11) NOT NULL,
   `post` int(11) NOT NULL,
   PRIMARY KEY (`id_like`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `likes`
 --
 
 INSERT INTO `likes` (`id_like`, `user`, `post`) VALUES
-(5, 3, 7),
-(6, 3, 6),
-(7, 4, 18),
-(8, 4, 17),
-(9, 4, 16),
-(10, 4, 15),
-(11, 4, 8),
-(12, 4, 3),
-(13, 4, 2),
-(14, 4, 4);
+(1, 1, 1),
+(2, 1, 2),
+(5, 2, 2),
+(6, 2, 4),
+(8, 1, 4),
+(9, 3, 4),
+(10, 3, 2),
+(11, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -201,11 +180,23 @@ CREATE TABLE IF NOT EXISTS `notifications` (
   `user` int(11) NOT NULL,
   `post` int(11) DEFAULT NULL,
   `community` int(11) DEFAULT NULL,
-  `type` enum('like','comment','new_post','join') NOT NULL,
+  `type` enum('like','comment','new_post','join','comment_another') NOT NULL,
   `acting_user` int(11) NOT NULL,
   `r_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id_notification`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `notifications`
+--
+
+INSERT INTO `notifications` (`id_notification`, `user`, `post`, `community`, `type`, `acting_user`, `r_date`) VALUES
+(1, 2, 4, 2, 'comment', 4, '2018-10-28 21:05:55'),
+(3, 3, 4, 2, 'comment_another', 4, '2018-10-28 21:05:55'),
+(4, 2, 4, 2, 'comment', 1, '2018-10-28 21:10:15'),
+(5, 3, 4, 2, 'comment_another', 1, '2018-10-28 21:10:15'),
+(7, 2, 4, 2, 'comment', 1, '2018-10-28 21:10:47'),
+(8, 3, 4, 2, 'comment_another', 1, '2018-10-28 21:10:47');
 
 -- --------------------------------------------------------
 
@@ -222,27 +213,17 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `r_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `likes` int(11) DEFAULT '0',
   PRIMARY KEY (`id_post`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Extraindo dados da tabela `posts`
 --
 
 INSERT INTO `posts` (`id_post`, `user`, `community`, `post_text`, `post_pic`, `r_date`, `likes`) VALUES
-(1, 3, 2, 'kkkkkkkkkkkkkkkk', NULL, '2018-10-27 09:04:27', 0),
-(2, 3, 2, 'kkkkkkkkkkkkkkkk', NULL, '2018-10-27 09:32:18', 1),
-(3, 3, 2, 'kkkkkkkkkkkkkkkk', NULL, '2018-10-27 09:32:32', 1),
-(4, 3, 2, 'Um dia chego lÃ¡!', NULL, '2018-10-27 09:45:49', 1),
-(6, 4, 2, 'Foi!', NULL, '2018-10-27 09:49:24', 1),
-(7, 4, 2, 'AGORA', NULL, '2018-10-27 13:07:25', 1),
-(8, 3, 2, 'Likes & Deslikes em Funcionamento!!', NULL, '2018-10-27 13:19:17', 1),
-(15, 3, 1, 'ItÃ¡lico', NULL, '2018-10-27 14:36:50', 1),
-(16, 3, 5, 'quero doar sangue!', NULL, '2018-10-27 14:57:47', 1),
-(17, 3, 1, 'Quero jogar', NULL, '2018-10-27 14:58:03', 1),
-(18, 3, 2, 'PRIMEIRO!!', NULL, '2018-10-27 14:59:00', 1),
-(29, 4, 3, 'Essa comunidade nÃ£o serve pra nada, nÃ£o Ã©?', NULL, '2018-10-28 14:09:44', 0),
-(32, 3, 7, 'AAAAAAH', NULL, '2018-10-28 17:58:00', 0),
-(33, 3, 7, 'kkkkkkkkk', NULL, '2018-10-28 17:58:03', 0);
+(1, 1, 1, 'Sejam todos bem vindos', NULL, '2018-10-28 20:14:49', 2),
+(2, 1, 2, 'OlÃ¡, se alguÃ©m quiser jogar RPG fale comigo.', NULL, '2018-10-28 20:19:02', 3),
+(4, 2, 2, 'OlÃ¡, sou novo aqui', NULL, '2018-10-28 20:23:18', 3),
+(5, 3, 2, 'NÃ£o gostei da imagem de perfil', NULL, '2018-10-28 20:33:30', 0);
 
 -- --------------------------------------------------------
 
@@ -271,8 +252,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `first_name`, `last_name`, `birthday`, `profile_pic`, `passwd`, `r_date`, `gender`, `followers`, `following`, `stars`) VALUES
-(3, 'mag', 'Carlos Magno', 'Nascimento', '2002-04-11', '	assets/img/default-user-icon.png	', '202cb962ac59075b964b07152d234b70', '2018-10-25 23:38:21', 'M', 0, 0, 8),
-(4, 'ryan', 'Ryan', 'Marcos', '2002-05-29', 'assets/img/default-user-icon.png', '202cb962ac59075b964b07152d234b70', '2018-10-27 08:45:23', 'M', 0, 0, 2);
+(1, 'mag', 'Carlos Magno', 'Nascimento', '2002-04-11', 'assets/upload/img/15407682645bd6420804b35.jpg', '202cb962ac59075b964b07152d234b70', '2018-10-28 20:11:04', 'M', 0, 0, 5),
+(2, 'joao', 'JoÃ£o', 'Pinto Grande', '1979-12-21', 'assets/upload/img/15407689215bd644996d0cd.jpg', '202cb962ac59075b964b07152d234b70', '2018-10-28 20:22:01', 'M', 0, 0, 3),
+(3, 'ana', 'Ana', 'Clara', '2000-01-31', 'assets/upload/img/15407692655bd645f1bc978.jpg', '202cb962ac59075b964b07152d234b70', '2018-10-28 20:27:45', 'F', 0, 0, 0),
+(4, 'bruno', 'Bruno', 'Barbosa', '1999-11-11', 'assets/upload/img/15407715005bd64eac4884e.jpg', '202cb962ac59075b964b07152d234b70', '2018-10-28 21:05:00', 'O', 0, 0, 0);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
