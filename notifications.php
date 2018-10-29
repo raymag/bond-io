@@ -75,9 +75,9 @@ mysqli_close($conn);
             <li><a href="see_all_communities.php">Ver Comunidades</a></li>
             <li><a href="create_community.php">Nova Comunidade</a></li>
             <li><a href="profile.php">Meu Perfil</a></li>
-            <li><a href="#">Seguidores</a></li>
+            <!-- <li><a href="#">Seguidores</a></li> -->
             <li role="separator" class="divider"></li>
-            <li><a href="#">Configurações</a></li>
+            <!-- <li><a href="#">Configurações</a></li> -->
             <li><a href="logout.php">Sair</a></li>
           </ul>
         </li>
@@ -96,7 +96,7 @@ mysqli_close($conn);
         <?php
         $conn = connect();
         $sql = "SELECT *, date_format(notifications.r_date, '%d, %b, %Y, %T') as data_f FROM notifications
-        JOIN users ON acting_user = users.id_user
+        JOIN users ON acting_user = users.id_user 
         WHERE user = '$id_user'";
         if($query = mysqli_query($conn, $sql)){
             $notifications = array();
@@ -120,7 +120,6 @@ mysqli_close($conn);
                 $type = $notification["type"];
                 $id_notification = $notification["id_notification"];
                 $time = $notification["data_f"];
-
                 switch($type){
                   case "like":
                     $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
@@ -129,6 +128,18 @@ mysqli_close($conn);
                   case "comment":
                     $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
                     comentou sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>";
+                    break;
+                  case "comment_another":
+                    $sql = "SELECT id_user,first_name, username FROM posts
+                    JOIN users ON users.id_user = posts.user WHERE id_post = $post";
+                    if($query = mysqli_query($conn, $sql)){
+                      $data = mysqli_fetch_assoc($query);
+                      $r_user_fname = $data["first_name"];
+                      $r_user_uname = $data["username"];
+                    }
+                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    comentou a <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a> 
+                    de <strong>$r_user_fname</strong> (@$r_user_uname)";
                     break;
                   default:
                     $text = '';
