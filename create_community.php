@@ -89,7 +89,6 @@ $conn = connect();
 if(isset($_POST["title"])){
   $title = $_POST["title"];
   $desc = $_POST["description"];
-
   $sql = "SELECT community_name FROM communities WHERE community_name LIKE '$title'";
   if($query = mysqli_query($conn, $sql)){
     $data = mysqli_fetch_assoc($query);
@@ -117,8 +116,16 @@ if(isset($_POST["title"])){
         $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
       }
       if(mysqli_query($conn, $sql)){
+        $sql = "SELECT id_community FROM communities WHERE community_name = '$title'";
+        if($query = mysqli_query($conn, $sql)){
+          $id_community = mysqli_fetch_assoc($query)["id_community"];
+          $sql = "INSERT INTO is_part_of (community, user) VALUES ($id_community, $id_user)";
+          mysqli_query($conn, $sql);
+          $sql = "UPDATE communities SET members = members + 1 WHERE id_community = $id_community";
+          mysqli_query($conn, $sql);
+        }
         echo "<div class='alert alert-success'>
-        <strong>Sucesso!</strong> Comunidade criada com êxito.
+        <strong>Sucesso!</strong> Comunidade criada com êxito. <a href='see_community.php?c=$id_community'>Ver Comunidade</a>
         </div>";
       }else{
         echo "<div class='alert alert-danger'>
