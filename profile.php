@@ -174,7 +174,8 @@ mysqli_close($conn);
               </div>";
             }
             if(count($posts)==0){
-                echo "<h4 class='text-center'>Você ainda não participa de nenhuma comunidade...</h4>";
+                echo "<h4 class='text-center'>Você ainda não possui nenhuma publicação... <br>
+                Para publicar algo, encontre uma comunidade ou <a href='create_community.php'>crie uma nova</a></h4>";
             }
         }
         mysqli_close($conn);
