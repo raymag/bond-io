@@ -15,10 +15,13 @@ if(!isset($_GET["p"]) || !isset($_GET["m"]) || !isset($_GET["l"])){
     $id_post = $_GET["p"];
     $mode = $_GET["m"];
     $local = $_GET["l"];
-    $sql = "SELECT * FROM posts WHERE id_post = $id_post";
+    $sql = "SELECT * FROM posts
+    JOIN communities ON community = communities.id_community
+    WHERE id_post = $id_post";
     if($query = mysqli_query($conn, $sql)){
         $data = mysqli_fetch_assoc($query);
         if(isset($data["user"])){
+            $community = $data["id_community"];
             $id_user2 = $data["user"];
             switch($mode){
                 case "like":
@@ -29,8 +32,8 @@ if(!isset($_GET["p"]) || !isset($_GET["m"]) || !isset($_GET["l"])){
                     $sql = "UPDATE users SET stars = stars + 1 WHERE id_user = $id_user2";
                     mysqli_query($conn, $sql);
                     if($id_user!=$id_user2){
-                        $sql = "INSERT INTO notifications (user, post, type, acting_user)
-                                VALUES ($id_user2,$id_post,'like',$id_user)";
+                        $sql = "INSERT INTO notifications (user, post, type, acting_user,community)
+                                VALUES ($id_user2,$id_post,'like',$id_user,$community)";
                         mysqli_query($conn, $sql);
                     }
                     break;
