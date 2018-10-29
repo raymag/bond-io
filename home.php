@@ -168,6 +168,9 @@ mysqli_close($conn);
           </div>";
 
           }
+          if(count($array2)==0){
+            echo "<h3>Seu feed de notícias ainda está vazio...</h3>";
+          }
           }
           mysqli_close($conn);
         ?>
