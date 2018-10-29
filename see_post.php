@@ -132,7 +132,7 @@ mysqli_close($conn);
                                     VALUES (".$post["id_user"].",$id_post,".$post["community"].",'comment',$id_user)";
                                     mysqli_query($conn, $sql);
                                     $sql = "SELECT DISTINCT user FROM comments WHERE user != $id_user
-                                     AND user != ".$post["id_user"];
+                                     AND user != ".$post["id_user"]." AND post = $id_post";
                                      if($query = mysqli_query($conn, $sql)){
                                          while($user = mysqli_fetch_assoc($query)["user"]){
                                              $sql = "INSERT INTO notifications (user, post, community, type, acting_user)
@@ -140,6 +140,15 @@ mysqli_close($conn);
                                              mysqli_query($conn, $sql);
                                          }
                                      }
+                                }else{
+                                    $sql = "SELECT DISTINCT user FROM comments WHERE user != $id_user";
+                                    if($query = mysqli_query($conn, $sql)){
+                                        while($user = mysqli_fetch_assoc($query)["user"]){
+                                            $sql = "INSERT INTO notifications (user, post, community, type, acting_user)
+                                            VALUES ($user,$id_post,".$post["community"].",'comment_own',$id_user)";
+                                            mysqli_query($conn, $sql);
+                                        }
+                                    }
                                 }
                             }
                             mysqli_close($conn);
