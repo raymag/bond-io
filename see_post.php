@@ -19,7 +19,6 @@ if($query = mysqli_query($conn, $sql)){
     if(!isset($post["id_user"])){
         header("location:home.php");
     }
-    
 }else{
     header("location:home.php");
 }
