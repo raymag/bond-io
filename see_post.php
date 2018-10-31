@@ -24,7 +24,7 @@ if($query = mysqli_query($conn, $sql)){
 }
 mysqli_close($conn);
 $conn = connect();
-$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user";
+$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user AND seen = 'n'";
 if($q = mysqli_query($conn, $sql)){
   $notifications = mysqli_fetch_assoc($q)["qnt"];
 }else{

@@ -11,7 +11,7 @@ $query = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($query);
 mysqli_close($conn);
 $conn = connect();
-$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user";
+$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user AND seen = 'n'";
 if($q = mysqli_query($conn, $sql)){
   $notifications = mysqli_fetch_assoc($q)["qnt"];
 }else{
@@ -165,15 +165,23 @@ mysqli_close($conn);
                 <div class='col-lg-1 col-lg-offset-11'>";
                 echo "<a href='del_notification.php?n=$id_notification' class='btn btn-danger'>
                   <span class='glyphicon glyphicon-remove'></span></a>";
-                echo "</div></div></div>
-                <div class='panel-body'>
-                 $text
-                </div><div class='panel-footer'>$time</div></div>";
+                echo "</div></div></div>";
+                if($notification["seen"]=='n'){
+                  echo "<div class='panel-body'>
+                  $text
+                 </div><div class='panel-footer'>$time</div></div>";
+                }else{
+                  echo "<div class='panel-body' style='background:#cfcfcf'>
+                  $text
+                 </div><div class='panel-footer' style='background:#cfcfcf'>$time</div></div>";
+                }
             }
             if(count($notifications)==0){
                 echo "<h4 class='text-center'>Você ainda não possui nenhuma notificação...</h4>";
             }
         }
+        $sql = "UPDATE notifications SET seen = 'y'";
+        mysqli_query($conn, $sql);
         mysqli_close($conn);
         ?>
     </div>

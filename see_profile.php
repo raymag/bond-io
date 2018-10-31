@@ -12,7 +12,7 @@ $query = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($query);
 mysqli_close($conn);
 $conn = connect();
-$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user2";
+$sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user2 AND seen = 'n'";
 if($q = mysqli_query($conn, $sql)){
   $notifications = mysqli_fetch_assoc($q)["qnt"];
 }else{
@@ -89,11 +89,16 @@ mysqli_close($conn);
 
 <div class="container-fluid">
 <div class="row" style="padding-top:50px;background:rgba(0, 0, 0, 0.8)">
-    <div class="col-lg-2" style="">
-    <img src="<?php echo $user["profile_pic"] ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image">
+    <div id="picture-container" class="col-sm-4 col-md-3 col-lg-2" style="background-image:url('<?php
+     echo $user["profile_pic"]  
+      ?>')">
+    <!-- <img src="<?php
+    //  echo $user["profile_pic"] 
+    ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image"> -->
     </div>
-    <div class="col-lg-10 jumbogotron" id="backcontainer">
-          <h1><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
+    <div class="col-sm-8 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
+          <h1 class="text-left"><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
+          <hr>
           <h3>
               <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
               <?php
@@ -115,6 +120,7 @@ mysqli_close($conn);
     </div>
 </div>
 </div>
+<br>
 <div class="container">
 <div class="row panel-gray">
     <div class="col-lg-10 col-lg-offset-1">
