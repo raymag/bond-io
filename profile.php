@@ -31,6 +31,7 @@ mysqli_close($conn);
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/pattern.css">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
   </head>
 <body>
 
