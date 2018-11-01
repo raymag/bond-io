@@ -78,7 +78,7 @@ body{
     min-width: 180px;
     background-size: cover;
     background-position: center;
-    border-bottom: #222 1px solid;
+    border: #222 1px solid;
 }
 #backcontainer{
     padding:10px;

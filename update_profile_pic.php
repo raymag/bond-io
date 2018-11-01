@@ -86,78 +86,67 @@ mysqli_close($conn);
     <div class="col-lg-8 col-lg-offset-2" id="create-community-form">
 <?php
 $conn = connect();
-if(isset($_POST["title"])){
-  $title = $_POST["title"];
-  $desc = $_POST["description"];
-  $sql = "SELECT community_name FROM communities WHERE community_name LIKE '$title'";
-  if($query = mysqli_query($conn, $sql)){
-    $data = mysqli_fetch_assoc($query);
-    if(isset($data["community_name"])){
-      echo "<div class='alert alert-warning'>
-        <strong>Falha!</strong> Este título já está em uso.
-        </div>";
+
+$sql = "SELECT profile_pic FROM users WHERE id_user = '$id_user'";
+if($query = mysqli_query($conn, $sql)){
+  $profile_pic = mysqli_fetch_assoc($query)["profile_pic"];
+}else{
+  $profile_pic = "assets/img/default-user-icon.png";
+}
+
+if(isset($_FILES["inputFile"]["name"]) && $_FILES["inputFile"]["error"]==0){
+  $file_tmp = $_FILES["inputFile"]["tmp_name"];
+  $name = $_FILES["inputFile"]["name"];
+  $extension = pathinfo($name, PATHINFO_EXTENSION);
+  $extension = strtolower($extension);
+  if(strstr('.jpg;.jpeg;.gif;.png', $extension)){
+    $newName = uniqid(time()).'.'.$extension;
+    $destiny = 'assets/upload/img/'.$newName;
+    @move_uploaded_file($file_tmp, $destiny);
+    
+    $sql = "UPDATE users SET profile_pic = '$destiny' WHERE id_user = $id_user";
+    if(mysqli_query($conn, $sql)){
+      $new_profile_pic = $destiny;
+      echo "<div class='alert alert-success'>
+      Foto atualizada.
+      </div>";
     }else{
-      if(isset($_FILES["inputFile"]["name"]) && $_FILES["inputFile"]["error"]==0){
-        $file_tmp = $_FILES["inputFile"]["tmp_name"];
-        $name = $_FILES["inputFile"]["name"];
-
-        $extension = pathinfo($name, PATHINFO_EXTENSION);
-        $extension = strtolower($extension);
-
-        if(strstr('.jpg;.jpeg;.gif;.png', $extension)){
-          $newName = uniqid(time()).'.'.$extension;
-          $destiny = 'assets/upload/img/'.$newName;
-          @move_uploaded_file($file_tmp, $destiny);
-        }
-
-        $sql = "INSERT INTO communities (community_name, profile_pic, community_description)
-         VALUES ('$title', '$destiny', '$desc')";
-      }else{
-        $sql = "INSERT INTO communities (community_name, community_description) VALUES ('$title', '$desc')";
-      }
-      if(mysqli_query($conn, $sql)){
-        $sql = "SELECT id_community FROM communities WHERE community_name = '$title'";
-        if($query = mysqli_query($conn, $sql)){
-          $id_community = mysqli_fetch_assoc($query)["id_community"];
-          $sql = "INSERT INTO is_part_of (community, user) VALUES ($id_community, $id_user)";
-          mysqli_query($conn, $sql);
-          $sql = "UPDATE communities SET members = members + 1 WHERE id_community = $id_community";
-          mysqli_query($conn, $sql);
-        }
-        echo "<div class='alert alert-success'>
-        <strong>Sucesso!</strong> Comunidade criada com êxito. <a href='see_community.php?c=$id_community'>Ver Comunidade</a>
-        </div>";
-      }else{
-        echo "<div class='alert alert-danger'>
-        <strong>Erro!</strong> A comunidade não foi criada.
-        </div>";
-      }
+      echo "<div class='alert alert-danger'>
+      Foto não atualizada
+      </div>";
     }
   }
 }
+
 mysqli_close($conn);
 ?>
-    <h3>Criar nova comunidade</h3>
+    <h3 class="text-center">Atualizar foto de perfil</h3><br>
     <form method="post" enctype="multipart/form-data">
+      <div class="row">
+        <?php
+        if(isset($new_profile_pic)){
+          echo "<div class='col-lg-6 col-lg-offset-3' id='picture-container'
+          style='background-image:url(\"".$new_profile_pic."\");
+          border-radius:10px;box-shadow:3px 5px 4px #aaa'>
+          <span class='label label-success'><strong>Nova Foto</strong></span>
+          </div>";
+          if($profile_pic!="assets/img/default-user-icon.png"){
+            unlink($profile_pic);
+          }
+        }else{
+          echo "<div class='col-lg-6 col-lg-offset-3' id='picture-container'
+          style='background-image:url(\"".$profile_pic."\");
+          border-radius:10px;box-shadow:3px 5px 4px #aaa'>
+          <span class='label label-success'><strong>Foto Atual</strong></span>
+          </div>";
+        }
+        ?>
+      </div><hr>
       <div class="form-group">
-        <label for="inputTitleCommunity">Título</label>
-        <input type="text" class="form-control" name="title" id="inputTitleCommunity" placeholder="Ex: Torcedores do Cruzeiro">
-      </div>
-      <div class="form-group">
-        <label for="inputDescCommunity">Descrição</label>
-        <input type="text" class="form-control" name="description" id="inputDescCommunity" placeholder="Ex: Comunidade para torcedores do cruzeiro...">
-      </div>
-      <div class="form-group">
-        <label for="inputIconCommunity">Ícone</label>
+        <label for="inputIconCommunity">Foto de Perfil</label>
         <input type="file" id="inputIconCommunity" name="inputFile"> 
-        <!-- <p class="help-block"></p> -->
       </div>
-      <!-- <div class="checkbox">
-        <label>
-          <input type="checkbox"> Check me out
-        </label>
-      </div> -->
-      <button type="submit" class="btn btn-default">Criar</button>
+      <button type="submit" class="btn btn-primary">Atualizar</button>
 </form>
 
     </div>
