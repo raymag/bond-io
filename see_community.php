@@ -101,17 +101,25 @@ mysqli_close($conn);
 </nav>
 
 <div class="container-fluid">
-<div class="row" style="padding-top:50px;background:rgba(0, 0, 0, 0.8)">
-    <div class="col-lg-2" style="">
-    <img src="<?php echo $profilePic ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image">
+<div class="row" style="margin-top:50px;background:rgba(0, 0, 0, 0.8)">
+    <div id="picture-container" class="col-sm-4 col-md-3 col-lg-2" style="background-image:url('<?php
+     echo $profilePic 
+      ?>')">
+    <!-- <img src="<?php
+    //  echo $profilePic
+     ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image"> -->
     </div>
-    <div class="col-lg-10 jumbogotron" id="backcontainer">
-          <h1><?php echo $commnityName ?></h1>
-          <!-- <p> -->
+    <div class="col-sm-8 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
+          <h1 class="text-left"><?php echo $commnityName ?></h1>
+          <p>
               <?php
-            //    echo $communityDesc 
+              if(strlen($communityDesc)>=20){
+                echo substr($communityDesc, 0, 20)."...";
+              }else{
+                echo $communityDesc;
+              }
                ?>
-            <!-- </p> -->
+            </p><hr>
           <h3>
               <?php
                 $conn = connect();
