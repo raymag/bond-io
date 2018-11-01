@@ -194,11 +194,12 @@ mysqli_close($conn);
       mysqli_close($conn);?>
       </a></strong>
       <?php
-      echo ' - <span class="gray-text"> @'.$user["username"].'</span>';
+      echo ' - <span class="gray-text"> @'.$user["username"].' - </span>';
       ?>
+          <?php echo $user["stars"] ?>
+        <label class='glyphicon glyphicon-star'></label>
     </div>
     <div class="panel-body">
-      <center>
         <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
           <?php
           //  echo $user["followers"];
@@ -209,10 +210,6 @@ mysqli_close($conn);
           //  echo $user["following"];
             ?>
         <label class='glyphicon glyphicon-arrow-down'></label></label> -->
-        <label title='Stars' class='label label-default' style="padding:14px">
-          <?php echo $user["stars"] ?>
-        <label class='glyphicon glyphicon-star'></label></label>
-      </center>
     </div>
   </div>
   </div>

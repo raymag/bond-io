@@ -132,6 +132,17 @@ mysqli_close($conn);
                   }else{
                     echo '<a class="btn btn-success btn-lg" href="join_community.php?c='.$data["id_community"].'" role="button">Entrar</a>';
                   }
+                $sql = "SELECT user FROM manages WHERE user = $id_user AND community = $id_community";
+                if($query = mysqli_query($conn, $sql)){
+                  $data = mysqli_fetch_assoc($query);
+                  if(isset($data["user"])){
+                    echo '<a class="btn btn-primary" style="padding:12px;margin:auto auto auto 8px"
+                     href="update_community_pic.php?c='.$id_community.'" title="Atualizar foto de perfil">
+                     <span class="glyphicon glyphicon-pencil"></span>
+                      <span class="glyphicon glyphicon-picture"></span>
+                     </a>';
+                  }
+                }
                 mysqli_close($conn);
                 }
               ?>

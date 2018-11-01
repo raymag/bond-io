@@ -123,6 +123,8 @@ if(isset($_POST["title"])){
           mysqli_query($conn, $sql);
           $sql = "UPDATE communities SET members = members + 1 WHERE id_community = $id_community";
           mysqli_query($conn, $sql);
+          $sql = "INSERT INTO manages (user, community, role) VALUES ($id_user, $id_community, 'owner')";
+          mysqli_query($conn, $sql);
         }
         echo "<div class='alert alert-success'>
         <strong>Sucesso!</strong> Comunidade criada com êxito. <a href='see_community.php?c=$id_community'>Ver Comunidade</a>
