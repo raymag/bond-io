@@ -6,6 +6,19 @@ if(!isset($_SESSION["id_user"])){
 }
 $id_user = $_SESSION["id_user"];
 $conn = connect();
+$sql = "SELECT sender FROM `messages` WHERE receiver = $id_user AND seen = 'n' group by sender";
+if($q = mysqli_query($conn, $sql)){
+    $messages_qnt = 0;
+    while($data = mysqli_fetch_assoc($q)){
+        if(isset($data["sender"])){
+            $messages_qnt++;
+        }
+    }
+  }else{
+    $messages_qnt = 0;
+}
+mysqli_close($conn);
+$conn = connect();
 $sql = "SELECT * FROM users WHERE id_user = $id_user";
 $query = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($query);
@@ -79,6 +92,34 @@ mysqli_close($conn);
         }
         setInterval(notificate, 30000);
         </script>
+        <li>
+        <?php
+        if($messages_qnt>0){
+          echo '<a href="chat.php" class="btn btn-warning chat-btn" id="dark-text-nav" style="margin:auto 5px">'.$messages_qnt
+          .' <span class="glyphicon glyphicon-comment"></span></a>';
+        }else{
+          echo '<a href="chat.php" class="btn btn-default chat-btn" id="dark-text-nav"
+           style="margin:auto 5px"><span class="glyphicon glyphicon-comment"></span></a>';
+        }
+        ?>
+        <script>
+        function msgNotificate(){
+          $.post("msg_notificate.php", {
+            
+        }, function(msgs){
+            link = document.getElementsByClassName("chat-btn")[0];
+            if(msgs=="0"){
+              link.className = "btn btn-default chat-btn";
+              link.innerHTML = "<span class='glyphicon glyphicon-comment'></span>";
+            }else{
+              link.className = "btn btn-warning chat-btn";
+              link.innerHTML = msgs+" <span class='glyphicon glyphicon-comment'></span>";
+            }
+          });
+        }
+        setInterval(msgNotificate, 3000);
+        </script>
+        </li>
         <li>
     <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
@@ -208,9 +249,6 @@ mysqli_close($conn);
     </div>
 </div>
 </div>
-
-
-
     <script src="js/pattern.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->  
     <!-- Include all compiled plugins (below), or include individual files as needed -->
