@@ -223,7 +223,7 @@ mysqli_close($conn);
         <div class="panel panel-primary">
             <div class="panel-heading">
             <div class="row">
-                <div class="col-lg-11">
+                <div class="col-xs-10 col-lg-11">
             <?php
             if(isset($id_contact)){
                 echo "<a href='see_profile.php?p=$id_contact' class='gray-text-link'>
@@ -234,8 +234,13 @@ mysqli_close($conn);
             
             ?>
                 </div>
-                <div class="col-lg-1">
-                <a title="Apagar Mensagens" href="del_msg.php?c=<?php echo $id_contact ?>" style="color:red"><span class='glyphicon glyphicon-remove'></span></a>
+                <div class="col-xs-2 col-lg-1">
+                <?php
+            if(isset($id_contact)){
+                echo '<a title="Apagar Mensagens" href="del_msg.php?c='.$id_contact.'"
+                 style="color:red"><span class="glyphicon glyphicon-remove"></span></a>';
+            }            
+            ?>
                 </div>
             </div>
             </div>
