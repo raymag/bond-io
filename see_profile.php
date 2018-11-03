@@ -7,6 +7,19 @@ if(!isset($_SESSION["id_user"]) || !isset($_GET["p"])){
 $id_user = $_GET["p"];
 $id_user2 = $_SESSION["id_user"];
 $conn = connect();
+$sql = "SELECT sender FROM `messages` WHERE receiver = $id_user2 AND seen = 'n' group by sender";
+if($q = mysqli_query($conn, $sql)){
+    $messages_qnt = 0;
+    while($data = mysqli_fetch_assoc($q)){
+        if(isset($data["sender"])){
+            $messages_qnt++;
+        }
+    }
+  }else{
+    $messages_qnt = 0;
+}
+mysqli_close($conn);
+$conn = connect();
 $sql = "SELECT * FROM users WHERE id_user = $id_user";
 $query = mysqli_query($conn, $sql);
 $user = mysqli_fetch_assoc($query);
@@ -80,6 +93,34 @@ mysqli_close($conn);
         setInterval(notificate, 3000);
         </script>
         <li>
+        <?php
+        if($messages_qnt>0){
+          echo '<a href="chat.php" class="btn btn-warning chat-btn" id="dark-text-nav" style="margin:auto 5px">'.$messages_qnt
+          .' <span class="glyphicon glyphicon-comment"></span></a>';
+        }else{
+          echo '<a href="chat.php" class="btn btn-default chat-btn" id="dark-text-nav"
+           style="margin:auto 5px"><span class="glyphicon glyphicon-comment"></span></a>';
+        }
+        ?>
+        <script>
+        function msgNotificate(){
+          $.post("msg_notificate.php", {
+            
+        }, function(msgs){
+            link = document.getElementsByClassName("chat-btn")[0];
+            if(msgs=="0"){
+              link.className = "btn btn-default chat-btn";
+              link.innerHTML = "<span class='glyphicon glyphicon-comment'></span>";
+            }else{
+              link.className = "btn btn-warning chat-btn";
+              link.innerHTML = msgs+" <span class='glyphicon glyphicon-comment'></span>";
+            }
+          });
+        }
+        setInterval(msgNotificate, 3000);
+        </script>
+        </li>
+        <li>
     <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
         <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
@@ -112,30 +153,42 @@ mysqli_close($conn);
     <div id="picture-container" class="col-sm-4 col-md-3 col-lg-2" style="background-image:url('<?php
      echo $user["profile_pic"]  
       ?>')">
-    <!-- <img src="<?php
-    //  echo $user["profile_pic"] 
-    ?>" class="img-responsive img-thumbnail" id="profilePic" alt="Responsive image"> -->
     </div>
     <div class="col-sm-8 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
           <h1 class="text-left"><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
           <hr>
           <h3>
-              <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
+              <label title='Stars' class='label label-default' style="padding:14px">
+              <?php echo $user["stars"] ?>
+              <label class='glyphicon glyphicon-star'></label></label>
+              <label title='Seguidores' class='label label-default' style="padding:14px">
               <?php
-              //  echo $user["followers"];
+               echo $user["followers"];
                ?>
               <label class='glyphicon glyphicon-user'></label></label> 
               <label title='Seguindo' class='label label-default' style="padding:14px">
               <?php
-              //  echo $user["following"];
+               echo $user["following"];
                ?>
-              <label class='glyphicon glyphicon-arrow-down'></label></label> -->
-              <label title='Stars' class='label label-default' style="padding:14px">
-              <?php echo $user["stars"] ?>
-              <label class='glyphicon glyphicon-star'></label></label>
-              <!-- <a title='Stars' class='label label-success' style="padding:14px">
-                Seguir</a> -->
-              
+              <label class='glyphicon glyphicon-arrow-right'></label></label>
+              <?php
+              $conn = connect();
+              $u = $user["id_user"];
+              $sql = "SELECT * FROM follows WHERE follower = $id_user2 AND following = $u";
+               if($query = mysqli_query($conn, $sql)){
+                   $data = mysqli_fetch_assoc($query);
+                   if(isset($data["follower"])){
+                     echo "<a title='Deixar de seguir' href='follow.php?u=".$user["id_user"]."&m=unfollow&l=see_profile.php?p=".$user["id_user"]."' 
+                     class='label label-warning' style='padding:14px'>
+                       Deixar de Seguir</a>";
+                   }else{
+                    echo "<a title='Seguir' href='follow.php?u=".$user["id_user"]."&m=follow&l=see_profile.php?p=".$user["id_user"]."' 
+                    class='label label-success' style='padding:14px'>
+                      Seguir</a>";
+                   }
+              }
+              mysqli_close($conn);
+              ?>              
           </h3>
     </div>
 </div>
@@ -196,9 +249,11 @@ mysqli_close($conn);
                 echo " <a href='see_post.php?p=$id_post'
                 title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
                 </span></a>";
-                echo " <a href='del_post.php?p=$id_post&u=$id_user&l=see_profile.php?p=$id_user'
-                title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
-                </span></a>";
+                if($id_user==$id_user2){
+                  echo " <a href='del_post.php?p=$id_post&u=$id_user&l=see_profile.php?p=$id_user'
+                  title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
+                  </span></a>";
+                }
                 echo "</div>
               </div>";
             }
