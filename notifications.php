@@ -77,7 +77,7 @@ mysqli_close($conn);
             }
           });
         }
-        setInterval(notificate, 3000);
+        setInterval(notificate, 30000);
         </script>
         <li>
     <form class="navbar-form navbar-right" onsubmit="return false">
