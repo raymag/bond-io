@@ -25,12 +25,12 @@ if(isset($_SESSION["id_user"])){
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button>
+      </button> -->
       <a class="navbar-brand" href="#">BOND</a>
     </div>
 
@@ -44,7 +44,7 @@ if(isset($_SESSION["id_user"])){
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form> -->
-      <li><form class="navbar-form" id="navbar-menu" method="post">
+      <li><form class="navbar-form visible-lg visible-md visible-sm" id="navbar-menu" method="post">
   <div class="form-group">
     <label for="inputUsername-l">Usuário: </label>
     <input type="text" class="form-control" id="inputUsername-l" name="username-l" placeholder="JaneDoe23">
@@ -72,8 +72,20 @@ if(isset($_SESSION["id_user"])){
     background-size:cover;">
       <h1 style="color:#ccc">Junte-se ao <strong>BOND.</strong></h1>
       <p><span style="color:#aaa">Aqui você encontra comunidades sobre tudo o que você adora</span></p>
+      <hr>
+    <form class="navbar-form visible-xs" id="navbar-menu2" method="post">
+    <h3>Já possui uma conta?</h3>
+  <div class="form-group">
+    <label for="inputUsername-l">Usuário: </label>
+    <input type="text" class="form-control" id="inputUsername-l2" name="username-l" placeholder="JaneDoe23">
+  </div>
+  <div class="form-group">
+    <label for="inputPasswd-l">Senha: </label>
+    <input type="password" class="form-control" id="inputPasswd-l2" name="passwd-l" placeholder="*****">
+  </div>
+  <button type="submit" class="btn btn-default">Entrar</button>
+</form>
     </div>
-    <h3 class="visible-xs">Para fazer login, abra o menu</h3>
   </div>
 
   <div class="col-lg-5 col-lg-offset-1" style="border-left:#ccc solid 2px;padding-left:40px">
@@ -170,7 +182,7 @@ mysqli_close($conn);
 ?>
 
     <h3>
-    Cadastro
+    Cadastre-se
     </h3>
 
   <form method="post" enctype="multipart/form-data">
