@@ -15,11 +15,12 @@ if(!isset($_GET["p"]) || !isset($_GET["l"])){
     if($query = mysqli_query($conn, $sql)){
         $data = mysqli_fetch_assoc($query);
         if(isset($data["user"])){
+            $stars = $data["likes"];
             $sql = "DELETE FROM likes WHERE post = $id_post";
             mysqli_query($conn, $sql);
             $sql = "DELETE FROM posts WHERE user = $id_user AND id_post = $id_post";
             mysqli_query($conn, $sql);
-            $sql = "UPDATE users SET stars = stars - 1 WHERE id_user = $id_user";
+            $sql = "UPDATE users SET stars = stars - $stars WHERE id_user = $id_user";
             mysqli_query($conn, $sql);
             $sql = "DELETE FROM comments WHERE post = $id_post";
             mysqli_query($conn, $sql);
