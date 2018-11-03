@@ -196,7 +196,8 @@ mysqli_close($conn);
                     <div class="col-lg-10 col-lg-offset-1">
                         <?php
                         $conn = connect();
-                        $sql = "SELECT *, date_format(comments.r_date, '%d, %b, %Y, %T') as data_f FROM comments 
+                        $sql = "SELECT *, date_format(comments.r_date, '%d, %b, %Y, %T') as data_f,
+                        UNIX_TIMESTAMP(comments.r_date) as utimestamp FROM comments 
                         JOIN users ON user = users.id_user
                         WHERE post = $id_post ORDER BY data_f ASC";
                         if($query = mysqli_query($conn, $sql)){
@@ -205,11 +206,11 @@ mysqli_close($conn);
                                 $comments[] = $comment;
                             }
                             function organizer($a, $b){
-                                $a = $a["data_f"];
-                                $b = $b["data_f"];
+                                $a = $a["utimestamp"];
+                                $b = $b["utimestamp"];
 
                                 if($a == $b) return 0;
-                                return ($a > $b) ? -1 : 0;
+                                return ($a > $b) ? 1 : 0;
                             }
                             usort($comments, "organizer");
                             foreach($comments as $comment){
