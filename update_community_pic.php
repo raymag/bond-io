@@ -71,12 +71,31 @@ mysqli_close($conn);
       <li>
       <?php
         if($notifications>0){
-          echo '<a href="notifications.php" class="btn btn-warning" id="dark-text-nav">'.$notifications
+          echo '<a href="notifications.php" class="btn btn-warning notification-btn" id="dark-text-nav">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" class="btn btn-default"><span class="glyphicon glyphicon-globe"></span></a>';
+          echo '<a href="notifications.php" class="btn btn-default notification-btn"><span class="glyphicon glyphicon-globe"></span></a>';
         }
-        ?></li><li>
+        ?></li>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>
+        function notificate(){
+          $.post("notificate.php", {
+            
+          }, function(notifications){
+            link = document.getElementsByClassName("notification-btn")[0];
+            if(notifications=="0"){
+              link.className = "btn btn-default notification-btn";
+              link.innerHTML = "<span class='glyphicon glyphicon-globe'></span>";
+            }else{
+              link.className = "btn btn-warning notification-btn";
+              link.innerHTML = notifications+" <span class='glyphicon glyphicon-globe'></span>";
+            }
+          });
+        }
+        setInterval(notificate, 3000);
+        </script>
+        <li>
     <form class="navbar-form navbar-right" onsubmit="return false">
       <div class="form-group">
         <input type="text" id="nav-search-input" class="form-control" placeholder="Pesquisar" value="<?php if(isset($_GET["q"])){echo $_GET["q"];} ?>">
@@ -180,7 +199,6 @@ mysqli_close($conn);
 
     <script src="js/pattern.js"></script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->  
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
 </body>
