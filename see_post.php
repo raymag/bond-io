@@ -19,6 +19,8 @@ if($query = mysqli_query($conn, $sql)){
     if(!isset($post["id_user"])){
         header("location:home.php");
     }
+    $id_community = $post["id_community"];
+    $community_name = $post["community_name"];
 }else{
     header("location:home.php");
 }
@@ -111,11 +113,13 @@ mysqli_close($conn);
                         if($post["id_user"]==$id_user){
                             echo "<a href='profile.php'".' class="gray-text-link">
                             <strong>'.$post["first_name"].'</strong>
-                            - <span class="gray-text">@'.$post["username"].' - '.$post["data_f"].'</span></a>';   
+                            - <span class="gray-text">@'.$post["username"].' | '.
+                            "<a class='gray-text-link' href='see_community.php?c=$id_community'><strong>$community_name</strong></a>".' - '.$post["data_f"].'</span></a>';   
                         }else{
                             echo "<a href='see_profile.php?p=".$post["id_user"]."' class='gray-text-link'>
                             <strong>".$post["first_name"].'</strong>
-                            - <span class="gray-text">@'.$post["username"].' - '.$post["data_f"].'</span></a>'; 
+                            - <span class="gray-text">@'.$post["username"].' | '.
+                            "<a class='gray-text-link' href='see_community.php?c=$id_community'><strong>$community_name</strong></a>".' - '.$post["data_f"].'</span></a>'; 
                         }
                         ?>
                     </div>
