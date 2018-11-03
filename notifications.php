@@ -96,7 +96,8 @@ mysqli_close($conn);
                   <span class='glyphicon glyphicon-remove'></span></a></h3>
         <?php
         $conn = connect();
-        $sql = "SELECT *, date_format(notifications.r_date, '%d, %b, %Y, %T') as data_f FROM notifications
+        $sql = "SELECT *, date_format(notifications.r_date, '%d, %b, %Y, %T') as data_f, 
+        UNIX_TIMESTAMP(notifications.r_date) as utimestamp FROM notifications
         JOIN users ON acting_user = users.id_user 
         WHERE user = '$id_user'";
         if($query = mysqli_query($conn, $sql)){
@@ -105,11 +106,11 @@ mysqli_close($conn);
                 $notifications[] = $row;
             }
             function organizer($a, $b){
-                $a = $a['data_f'];
-                $b = $b['data_f'];
+                $a = $a['utimestamp'];
+                $b = $b['utimestamp'];
 
                 if ($a == $b) return 0;
-                return ($a > $b) ? -1 : 1;
+                return ($a > $b) ? 0 : 1;
             }
             usort($notifications, "organizer");
             foreach($notifications as $notification){
