@@ -151,14 +151,14 @@ mysqli_close($conn);
 
 <div class="container-fluid">
 <div class="row" style="padding-top:50px;background:rgba(0, 0, 0, 0.8)">
-    <div id="picture-container" class="col-sm-4 col-md-3 col-lg-2" style="background-image:url('<?php
+    <div id="picture-container" class="col-sm-12 col-md-3 col-lg-2" style="background-image:url('<?php
      echo $user["profile_pic"]  
       ?>')">
     </div>
-    <div class="col-sm-8 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
+    <div class="col-sm-12 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
           <h1 class="text-left"><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1>
           <hr>
-          <h3>
+          <h5>
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
@@ -190,7 +190,7 @@ mysqli_close($conn);
               }
               mysqli_close($conn);
               ?>              
-          </h3>
+          </h5>
     </div>
 </div>
 </div>
