@@ -45,11 +45,6 @@ mysqli_close($conn);
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Pesquisar" value="FEED" disabled>
-        </div>
-      </form>
       <ul class="nav navbar-nav navbar-right">
       <li>
         <?php
@@ -104,9 +99,9 @@ mysqli_close($conn);
           $array2 = array();
           foreach($array as $communities){
             $id_community = $communities["community"];
-            $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts 
+            $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f, UNIX_TIMESTAMP(posts.r_date) as utimestamp FROM posts 
             JOIN users ON posts.user = users.id_user JOIN communities ON posts.community = communities.id_community
-            WHERE community = '$id_community' ORDER BY posts.r_date DESC,  posts.likes DESC";
+            WHERE community = '$id_community' ORDER BY posts.likes DESC, users.first_name";
             if($query2 = mysqli_query($conn, $sql)){
               while($post = mysqli_fetch_assoc($query2)){
                 $array2[] = $post;
@@ -114,11 +109,11 @@ mysqli_close($conn);
             }
           }
           function organizer($a, $b){
-            $a = $a['data_f'];
-            $b = $b['data_f'];
+            $a = $a['utimestamp'];
+            $b = $b['utimestamp'];
 
             if ($a == $b) return 0;
-            return ($a > $b) ? -1 : 1;
+            return ($a > $b) ? 0 : 1;
           }
           usort($array2, "organizer");
           foreach($array2 as $post){

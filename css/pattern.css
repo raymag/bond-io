@@ -55,7 +55,7 @@ body{
 .navbar-blue{
     background-color: #355c7d;
 }
-#navbar-menu{
+#navbar-menu, #navbar-menu2{
     border-bottom: none;
     box-shadow: 4px 4px 5px rgba(10,10,10,0.3);
     color: #bbb;

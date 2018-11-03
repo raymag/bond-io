@@ -195,54 +195,70 @@ mysqli_close($conn);
     <div class="col-lg-10 col-lg-offset-1">
         <?php
          $conn = connect();
-         $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts JOIN users ON posts.user = users.id_user  WHERE community = '$id_community' ORDER BY posts.r_date DESC,  posts.likes DESC";
+         $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f,
+          UNIX_TIMESTAMP(posts.r_date) as utimestamp
+          FROM posts JOIN users ON posts.user = users.id_user  
+          WHERE community = '$id_community' ORDER BY posts.likes DESC";
          if($query = mysqli_query($conn, $sql)){
+           $posts = array();
            while($post = mysqli_fetch_assoc($query)){
-             $text = $post["post_text"];
-             $likes = $post["likes"];
-             $id_post = $post["id_post"];
+             $posts[] = $post;
+            }
+            function organizer($a, $b){
+              $a = $a["utimestamp"];
+              $b = $b["utimestamp"];
 
-             $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
-             if($q = mysqli_query($conn, $sql)){
-               $comments_qnt = mysqli_fetch_assoc($q)["comments"];
-             }else{
-               $comments_qnt = '';
-             }
+              if($a==$b) return 0;
+              return ($a>$b)?0:1;
 
-             echo "<div class='panel panel-primary'>";
-             if($post["user"]==$id_user){
-               $link = "profile.php";
-             }else{
-               $link = "see_profile.php?p=".$post["user"];
-             }
-             echo "
-             <div class='panel-heading'><a href='$link' class='gray-text-link'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]."</a> - ";
-             echo $post["data_f"]."</span></div>
-             <div class='panel-body'>
-              $text
-             </div>
-             <div class='panel-footer'> ";
-             $sql = "SELECT * FROM likes WHERE post = $id_post AND user = $id_user";
-             if(isset(mysqli_fetch_assoc(mysqli_query($conn, $sql))["post"])){
-              echo "<a href='like_post.php?p=$id_post&m=unlike&l=see_community.php?c=$id_community'
-              title='Gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star'>
-              </span></a>";
-             }else{
-               echo "<a href='like_post.php?p=$id_post&m=like&l=see_community.php?c=$id_community'
-                title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
-                </span></a>";
-             }
-             echo " <a href='see_post.php?p=$id_post'
-                title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
-                </span></a>";
-             if($post["id_user"] == $id_user){
-              echo " <a href='del_post.php?p=$id_post&l=see_community.php?c=$id_community'
-              title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
-              </span></a>";
-             }
-             echo "</div>
-           </div>";
-           }
+            }
+            usort($posts, "organizer");
+            foreach($posts as $post){
+              $text = $post["post_text"];
+              $likes = $post["likes"];
+              $id_post = $post["id_post"];
+  
+              $sql = "SELECT count(*) as comments FROM comments WHERE post = $id_post";
+              if($q = mysqli_query($conn, $sql)){
+                $comments_qnt = mysqli_fetch_assoc($q)["comments"];
+              }else{
+                $comments_qnt = '';
+              }
+  
+              echo "<div class='panel panel-primary'>";
+              if($post["user"]==$id_user){
+                $link = "profile.php";
+              }else{
+                $link = "see_profile.php?p=".$post["user"];
+              }
+              echo "
+              <div class='panel-heading'><a href='$link' class='gray-text-link'><strong>".$post["first_name"]."</strong> - <span class='gray-text'>@".$post["username"]."</a> - ";
+              echo $post["data_f"]."</span></div>
+              <div class='panel-body'>
+               $text
+              </div>
+              <div class='panel-footer'> ";
+              $sql = "SELECT * FROM likes WHERE post = $id_post AND user = $id_user";
+              if(isset(mysqli_fetch_assoc(mysqli_query($conn, $sql))["post"])){
+               echo "<a href='like_post.php?p=$id_post&m=unlike&l=see_community.php?c=$id_community'
+               title='Gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star'>
+               </span></a>";
+              }else{
+                echo "<a href='like_post.php?p=$id_post&m=like&l=see_community.php?c=$id_community'
+                 title='Não gostei' class='btn btn-default' id='like-btn'>$likes <span class='glyphicon glyphicon-star-empty'>
+                 </span></a>";
+              }
+              echo " <a href='see_post.php?p=$id_post'
+                 title='Comentar' class='btn btn-default' id='like-btn'>".$comments_qnt." <span class='glyphicon glyphicon-comment'>
+                 </span></a>";
+              if($post["id_user"] == $id_user){
+               echo " <a href='del_post.php?p=$id_post&l=see_community.php?c=$id_community'
+               title='Apagar' class='btn btn-danger' id='like-btn'><span class='glyphicon glyphicon-trash'>
+               </span></a>";
+              }
+              echo "</div>
+            </div>";
+            }
          }
          mysqli_close($conn);
         ?>

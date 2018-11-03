@@ -127,7 +127,7 @@ mysqli_close($conn);
     <div class="col-lg-10 col-lg-offset-1">
         <?php
         $conn = connect();
-        $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f FROM posts
+        $sql = "SELECT *, date_format(posts.r_date, '%d, %b, %Y, %T') as data_f, UNIX_TIMESTAMP(posts.r_date) as utimestamp FROM posts
         JOIN communities ON posts.community = communities.id_community WHERE user = '$id_user'";
         if($query = mysqli_query($conn, $sql)){
             $posts = array();
@@ -135,11 +135,11 @@ mysqli_close($conn);
                 $posts[] = $row;
             }
             function organizer($a, $b){
-                $a = $a['data_f'];
-                $b = $b['data_f'];
+                $a = $a['utimestamp'];
+                $b = $b['utimestamp'];
 
                 if ($a == $b) return 0;
-                return ($a > $b) ? -1 : 1;
+                return ($a > $b) ? 0 : 1;
             }
             usort($posts, "organizer");
             foreach($posts as $post){
