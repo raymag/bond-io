@@ -191,9 +191,9 @@ mysqli_close($conn);
                 if($query2 = mysqli_query($conn, $sql)){
                   $ispartof = mysqli_fetch_assoc($query2);
                   if(isset($ispartof["user"])){
-                    echo '<a class="btn btn-danger btn-lg" href="exit_community.php?c='.$data["id_community"].'" role="button">Sair</a>';
+                    echo '<a class="btn btn-danger btn-lg" href="exit_community.php?c='.$id_community.'" role="button">Sair</a>';
                   }else{
-                    echo '<a class="btn btn-success btn-lg" href="join_community.php?c='.$data["id_community"].'" role="button">Entrar</a>';
+                    echo '<a class="btn btn-success btn-lg" href="join_community.php?c='.$id_community.'" role="button">Entrar</a>';
                   }
                 $sql = "SELECT user FROM manages WHERE user = $id_user AND community = $id_community";
                 if($query = mysqli_query($conn, $sql)){
