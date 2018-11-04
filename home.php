@@ -67,7 +67,7 @@ mysqli_close($conn);
           style="margin:auto 5px">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" title="Notificações" class="btn btn-default notification-btn" style="margin:auto 5px">
+          echo '<a href="notifications.php" title="Notificações" class="btn btn-default notification-btn" id="dark-text-nav" style="margin:auto 5px">
           <span class="glyphicon glyphicon-globe"></span></a>';
         }
         ?></li>
