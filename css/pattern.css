@@ -44,6 +44,12 @@ body{
     text-decoration: none;
     color: rgb(119, 0, 255);
 }
+.notification-link{
+    color: #222;
+}
+.notification-link:hover{
+    color: rgb(174, 121, 195);
+}
 .border-div{
     padding: 5px;
     border: solid 1px #ccc;
