@@ -35,6 +35,8 @@ if(isset($_GET["u"]) && isset($_GET["m"]) && isset($_GET["l"]) ){
                         mysqli_query($conn, $sql);
                         echo $sql = "UPDATE users SET following = following + 1 WHERE id_user = $id_user";
                         mysqli_query($conn, $sql);
+                        $sql = "INSERT INTO notifications (user, type, acting_user) VALUES ($u, 'following_you',$id_user)";
+                        mysqli_query($conn, $sql);
                     }
                 }
             }

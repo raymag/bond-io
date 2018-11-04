@@ -179,6 +179,7 @@ mysqli_close($conn);
                 $acting_user = $notification["acting_user"];
                 $acting_user_fname = $notification["first_name"];
                 $acting_user_uname = $notification["username"];
+                $acting_id = $notification["id_user"];
                 $post = $notification["post"];
                 $community = $notification["community"];
 
@@ -193,12 +194,12 @@ mysqli_close($conn);
                 $time = $notification["data_f"];
                 switch($type){
                   case "like":
-                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    $text = "<a href='see_profile.php?p=$acting_id' class='notification-link'><strong>$acting_user_fname</strong> (@$acting_user_uname)</a>
                      curtiu sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
                      em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
                   case "comment":
-                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    $text = "<a href='see_profile.php?p=$acting_id' class='notification-link'><strong>$acting_user_fname</strong> (@$acting_user_uname)</a>
                     comentou sua <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
                     em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
@@ -209,16 +210,21 @@ mysqli_close($conn);
                       $data = mysqli_fetch_assoc($query);
                       $r_user_fname = $data["first_name"];
                       $r_user_uname = $data["username"];
+                      $r_user_id = $data["id_user"];
                     }
-                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    $text = "<a href='see_profile.php?p=$acting_id' class='notification-link'><strong>$acting_user_fname</strong> (@$acting_user_uname)</a>
                     também comentou a <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a> 
-                    de <strong>$r_user_fname</strong> (@$r_user_uname) 
+                    de <a href='see_profile.php?p=$r_user_id' class='notification-link'><strong>$r_user_fname</strong> (@$r_user_uname) </a>
                     em <a href='see_community.php?c=$community'>$community_name</a>.";
                     break;
                   case "comment_own":
-                    $text = "<strong>$acting_user_fname</strong> (@$acting_user_uname)
+                    $text = "<a href='see_profile.php?p=$acting_id' class='notification-link'><strong>$acting_user_fname</strong> (@$acting_user_uname)</a>
                     comentou a própria <a href='see_post.php?p=$post' href='dark-text-link'>publicação</a>
                     em <a href='see_community.php?c=$community'>$community_name</a>.";
+                    break;
+                  case "following_you":
+                    $text = "<a href='see_profile.php?p=$acting_id' class='notification-link'><strong>$acting_user_fname</strong> (@$acting_user_uname)</a>
+                    começou a te seguir.";
                     break;
                   default:
                     $text = '';
