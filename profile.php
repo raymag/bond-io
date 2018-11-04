@@ -67,10 +67,11 @@ mysqli_close($conn);
       <li>
       <?php
         if($notifications>0){
-          echo '<a href="notifications.php" class="btn btn-warning notification-btn" id="dark-text-nav">'.$notifications
+          echo '<a href="notifications.php" class="btn btn-warning notification-btn" id="dark-text-nav" style="margin:auto 5px">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" class="btn btn-default notification-btn"><span class="glyphicon glyphicon-globe"></span></a>';
+          echo '<a href="notifications.php" class="btn btn-default notification-btn" style="margin:auto 5px">
+          <span class="glyphicon glyphicon-globe"></span></a>';
         }
         ?></li>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -167,12 +168,12 @@ mysqli_close($conn);
                echo $user["following"];
                ?>
               <label class='glyphicon glyphicon-arrow-right'></label></label> 
-              <a href="update_profile_pic.php" title="Alterar foto de perfil" class="btn btn-primary" style="padding:14px">
-                <span class="glyphicon glyphicon-picture"></span>
-              </a>
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
+              <a href="update_profile_pic.php" title="Alterar foto de perfil" class="btn btn-primary" style="padding:14px">
+                <span class="glyphicon glyphicon-picture"></span>
+              </a>
           </h3>
     </div>
 </div>

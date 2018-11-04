@@ -63,10 +63,12 @@ mysqli_close($conn);
       <li>
         <?php
         if($notifications>0){
-          echo '<a href="notifications.php" title="Notificações" class="btn btn-warning notification-btn" id="dark-text-nav">'.$notifications
+          echo '<a href="notifications.php" title="Notificações" class="btn btn-warning notification-btn" id="dark-text-nav" 
+          style="margin:auto 5px">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" title="Notificações" class="btn btn-default notification-btn"><span class="glyphicon glyphicon-globe"></span></a>';
+          echo '<a href="notifications.php" title="Notificações" class="btn btn-default notification-btn" style="margin:auto 5px">
+          <span class="glyphicon glyphicon-globe"></span></a>';
         }
         ?></li>
         <script>
@@ -257,16 +259,18 @@ mysqli_close($conn);
         <label class='glyphicon glyphicon-star'></label>
     </div>
     <div class="panel-body">
-        <!-- <label title='Seguidores' class='label label-default' style="padding:14px">
-          <?php
-          //  echo $user["followers"];
-            ?>
+      <center>
+        <label title='Seguidores' class='label label-default' style="padding:14px">
+            <?php
+           echo $user["followers"];
+           ?>
         <label class='glyphicon glyphicon-user'></label></label>
         <label title='Seguindo' class='label label-default' style="padding:14px">
-          <?php
-          //  echo $user["following"];
-            ?>
-        <label class='glyphicon glyphicon-arrow-down'></label></label> -->
+            <?php
+           echo $user["following"];
+           ?>
+        <label class='glyphicon glyphicon-arrow-right'></label></label>
+      </center>
     </div>
   </div>
   </div>

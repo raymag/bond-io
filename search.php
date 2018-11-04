@@ -62,10 +62,11 @@ mysqli_close($conn);
       <li>
       <?php
         if($notifications>0){
-          echo '<a href="notifications.php" class="btn btn-warning notification-btn" id="dark-text-nav">'.$notifications
+          echo '<a href="notifications.php" class="btn btn-warning notification-btn" id="dark-text-nav" style="margin:auto 5px">'.$notifications
           .' <span class="glyphicon glyphicon-globe"></span></a>';
         }else{
-          echo '<a href="notifications.php" class="btn btn-default notification-btn"><span class="glyphicon glyphicon-globe"></span></a>';
+          echo '<a href="notifications.php" class="btn btn-default notification-btn" style="margin:auto 5px">
+          <span class="glyphicon glyphicon-globe"></span></a>';
         }
         ?></li>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -223,42 +224,74 @@ mysqli_close($conn);
         if(!isset($data["username"])){
           echo "<h4>Nenhum usuário foi encontrado..</h4>";
         }else{
+          $id_user2 = $data["id_user"];
           if($data["id_user"] != $id_user){
             echo "<div class='panel panel-default panel-gray'>
               <div class='panel-body'>";
-              // <label title='Seguidores' class='label label-default'>"
-              // .$data["followers"]
-              // ." <label class='glyphicon glyphicon-user'></label></label>";
-              // echo " <label title='Seguindo' class='label label-default'>";
-              // echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
               echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - ";
               echo " <label title='Stars' class='label label-default'>";
               echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
+              echo " <label title='Seguidores' class='label label-default'>"
+                .$data["followers"]
+                ." <label class='glyphicon glyphicon-user'></label></label>";
+              echo " <label title='Seguindo' class='label label-default'>";
+              echo $data["following"]." <label class='glyphicon glyphicon-arrow-right'> </label></label>";
+
               echo "<br>@".$data["username"]."<br><br> ";
               echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-              // echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+
+              $sql = "SELECT * FROM follows WHERE follower = $id_user AND following = $id_user2";
+               if($query2 = mysqli_query($conn, $sql)){
+                   $dt = mysqli_fetch_assoc($query2);
+                   if(isset($dt["follower"])){
+                     echo "<a title='Deixar de seguir' href='follow.php?u=".$id_user2."&m=unfollow&l=search.php?q=".$q."' 
+                     class='btn btn-warning'>
+                       Deixar de Seguir</a>";
+                   }else{
+                    echo "<a title='Seguir' href='follow.php?u=".$id_user2."&m=follow&l=search.php?q=".$q."' 
+                    class='btn btn-success'>
+                      Seguir</a>";
+                   }
+              }          
               echo "</div></div>";
+
             }
             while($data = mysqli_fetch_assoc($query)){
+              $id_user2 = $data["id_user"];
               if($data["id_user"] != $id_user){
                 echo "<div class='panel panel-default panel-gray'>
                 <div class='panel-body'>";
-                // <label title='Seguidores' class='label label-default'>"
-                // .$data["followers"]
-                // ." <label class='glyphicon glyphicon-user'></label></label>";s
-                // echo " <label title='Seguindo' class='label label-default'>";
-                // echo $data["following"]." <label class='glyphicon glyphicon-share'> </label></label>";
                 echo "<strong>".$data["first_name"].' '.$data["last_name"]."</strong> - "; 
                 echo " <label title='Stars' class='label label-default'>";
                 echo $data["stars"]." <label class='glyphicon glyphicon-star'> </label></label>";
+                echo " <label title='Seguidores' class='label label-default'>"
+                .$data["followers"]
+                ." <label class='glyphicon glyphicon-user'></label></label>";
+                echo " <label title='Seguindo' class='label label-default'>";
+                echo $data["following"]." <label class='glyphicon glyphicon-arrow-right'> </label></label>";
                 echo "<br>@".$data["username"]."<br><br> ";
                 echo '<a class="btn btn-primary" href="see_profile.php?p='.$data["id_user"].'" role="button">Visitar</a> ';
-                // echo '<a class="btn btn-success" href="#" role="button">Seguir</a>';
+
+                $sql = "SELECT * FROM follows WHERE follower = $id_user AND following = $id_user2";
+                if($query2 = mysqli_query($conn, $sql)){
+                   $dt = mysqli_fetch_assoc($query2);
+                   if(isset($dt["follower"])){
+                     echo "<a title='Deixar de seguir' href='follow.php?u=".$id_user2."&m=unfollow&l=search.php?q=".$q."' 
+                     class='btn btn-warning'>
+                       Deixar de Seguir</a>";
+                   }else{
+                    echo "<a title='Seguir' href='follow.php?u=".$id_user2."&m=follow&l=search.php?q=".$q."' 
+                    class='btn btn-success'>
+                      Seguir</a>";
+                   }
+                } 
+
                 echo "</div></div>";
               }
             }
         }
       }
+      mysqli_close($conn);
     }else{
       echo "<h4>Você ainda não pesquisou nada...</h4>";
     }
