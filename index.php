@@ -233,7 +233,7 @@ mysqli_close($conn);
         <p class="help-block">A foto de perfil é opcional</p>
       </div>
   <button type="submit" class="btn btn-primary">Criar Conta</button>
-</form>
+</form><br>
   </div> 
 </div>
 </div>
