@@ -129,13 +129,12 @@ mysqli_close($conn);
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
           role="button" aria-haspopup="true" aria-expanded="false">Mais <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a href="see_all_communities.php">Ver Comunidades</a></li>
-            <li><a href="create_community.php">Nova Comunidade</a></li>
-            <li><a href="profile.php">Meu Perfil</a></li>
-            <!-- <li><a href="#">Seguidores</a></li> -->
+            <li><a href="see_all_communities.php"><span class="glyphicon glyphicon-eye-open"></span> Ver Comunidades</a></li>
+            <li><a href="create_community.php"><span class="glyphicon glyphicon-link"></span> Nova Comunidade</a></li>
+            <li><a href="profile.php"><span class="glyphicon glyphicon-user"></span> Meu Perfil</a></li>
             <li role="separator" class="divider"></li>
-            <!-- <li><a href="#">Configurações</a></li> -->
-            <li><a href="logout.php">Sair</a></li>
+            <li><a href="config.php"><span class="glyphicon glyphicon-cog"></span> Configurações</a></li>
+            <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span> Sair</a></li>
           </ul>
         </li>
 
