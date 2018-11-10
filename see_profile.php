@@ -162,16 +162,20 @@ mysqli_close($conn);
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
-              <label title='Seguidores' class='label label-default' style="padding:14px">
+              <!-- <label title='Seguidores' class='label label-default' style="padding:14px"> -->
+              <a href="see_its_followers.php?p=<?php echo $id_user ?>" title="Seguidores" class="btn btn-primary" style="padding:10px">
               <?php
                echo $user["followers"];
                ?>
-              <label class='glyphicon glyphicon-user'></label></label> 
-              <label title='Seguindo' class='label label-default' style="padding:14px">
+              <span class='glyphicon glyphicon-user'></span></a>
+              <!-- </label>  -->
+              <!-- <label title='Seguindo' class='label label-default' style="padding:14px"> -->
+              <a href="see_its_following.php?p=<?php echo $id_user ?>" title="Seguindo" class="btn btn-primary" style="padding:10px">
               <?php
                echo $user["following"];
                ?>
-              <label class='glyphicon glyphicon-arrow-right'></label></label>
+              <span class='glyphicon glyphicon-arrow-right'></span></a>
+              <!-- </label> -->
               <?php
               $conn = connect();
               $u = $user["id_user"];
