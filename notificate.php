@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION["id_user"])){
-    include "inc/functions/connection.php";
+    include_once "inc/functions/connection.php";
     $id_user = $_SESSION["id_user"];
     $conn = connect();
     $sql = "SELECT COUNT(*) as qnt FROM notifications WHERE user = $id_user AND seen = 'n'";

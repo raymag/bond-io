@@ -259,16 +259,20 @@ mysqli_close($conn);
     </div>
     <div class="panel-body">
       <center>
-        <label title='Seguidores' class='label label-default' style="padding:14px">
+        <!-- <label title='Seguidores' class='label label-default' style="padding:14px"> -->
+        <a href="see_followers.php" title="Seguidores" class="btn btn-primary" style="padding:10px">
             <?php
            echo $user["followers"];
            ?>
-        <label class='glyphicon glyphicon-user'></label></label>
-        <label title='Seguindo' class='label label-default' style="padding:14px">
+        <span class='glyphicon glyphicon-user'></span></a>
+        </label>
+        <!-- <label title='Seguindo' class='label label-default' style="padding:14px"> -->
+        <a href="see_following.php" title="Pessoas seguidas" class="btn btn-primary" style="padding:10px">
             <?php
            echo $user["following"];
            ?>
-        <label class='glyphicon glyphicon-arrow-right'></label></label>
+        <span class='glyphicon glyphicon-arrow-right'></span></a>
+        <!-- </label> -->
       </center>
     </div>
   </div>
