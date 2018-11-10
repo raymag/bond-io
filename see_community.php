@@ -209,9 +209,11 @@ mysqli_close($conn);
                 }
               ?>
               <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Sair</a> -->
-              <label title='Membros' class='label label-default' style="padding:14px">
+              <!-- <label title='Membros' class='label label-default' style="padding:14px"> -->
+              <a href="see_members.php?c=<?php echo $id_community ?>" title="Membros" class="btn btn-primary" style="padding:14px">
               <?php echo $members ?>
-              <label class='glyphicon glyphicon-user'></label></label>
+              <span class='glyphicon glyphicon-user'></span></a>
+              <!-- </label> -->
           </h3>
     </div>
 </div>
