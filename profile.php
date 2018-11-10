@@ -157,19 +157,25 @@ mysqli_close($conn);
     <div class="col-sm-8 col-md-9 col-lg-10 jumbogotron" id="backcontainer">
           <h1 class="text-left"><?php echo $user["first_name"].' '.$user["last_name"].' - @'.$user["username"]?></h1><hr>
           <h3>
-              <label title='Seguidores' class='label label-default' style="padding:14px">
-              <?php
-               echo $user["followers"];
-                ?>
-              <label class='glyphicon glyphicon-user'></label></label> 
-              <label title='Seguindo' class='label label-default' style="padding:14px">
-              <?php
-               echo $user["following"];
-               ?>
-              <label class='glyphicon glyphicon-arrow-right'></label></label> 
               <label title='Stars' class='label label-default' style="padding:14px">
               <?php echo $user["stars"] ?>
               <label class='glyphicon glyphicon-star'></label></label>
+              <!-- <label title='Seguidores' class='label label-default' style="padding:14px"> -->
+              <a href="see_followers.php" title="Seguidores" class="btn btn-primary" style="padding:14px">
+              <?php
+               echo $user["followers"];
+                ?>
+              <span class='glyphicon glyphicon-user'></span>
+                </a>
+              <!-- </label>  -->
+              <!-- <label title='Seguindo' class='label label-default' style="padding:14px"> -->
+              <a href="see_following.php" title="Pessoas seguidas" class="btn btn-primary" style="padding:14px">
+              <?php
+               echo $user["following"];
+               ?>
+              <span class='glyphicon glyphicon-arrow-right'></span>
+              </a>
+              <!-- </label>  -->
               <a href="update_profile_pic.php" title="Alterar foto de perfil" class="btn btn-primary" style="padding:14px">
                 <span class="glyphicon glyphicon-picture"></span>
               </a>
